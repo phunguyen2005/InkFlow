@@ -7,76 +7,59 @@ import { library } from "@/features/library/data/mock-library.repository";
 import { GENRES } from "@/features/library/types/library";
 import { genreSlug } from "@/features/library/utils/formatting";
 
+import { HeroSlider, type FeaturedStoryItem } from "@/features/library/components/discovery/hero-slider";
+
 export default async function HomePage() {
-  const [featured, trending, latest, completed] = await Promise.all([
+  const [featuredStory, quietMachine, mapMoonlight, lanternRow, trending, latest, completed] = await Promise.all([
     library.getStoryBySlug("the-blood-orchard"),
+    library.getStoryBySlug("the-quiet-machine-at-dawn"),
+    library.getStoryBySlug("a-map-for-moonlight"),
+    library.getStoryBySlug("the-lanterns-of-briar-row"),
     library.listStories({ sort: "trending", pageSize: 6 }),
     library.listStories({ sort: "latest", pageSize: 6 }),
     library.listStories({ status: ["COMPLETED"], sort: "rating", pageSize: 6 }),
   ]);
+
+  const featuredItems: FeaturedStoryItem[] = [
+    ...(featuredStory
+      ? [
+          {
+            story: featuredStory,
+            heroImage: "/mock/heroes/blood-orchard.webp",
+            tagline: "A name erased. An orchard that remembers.",
+          },
+        ]
+      : []),
+    ...(quietMachine
+      ? [
+          {
+            story: quietMachine,
+            tagline: "A silent machine drifting beyond the mapped moons.",
+          },
+        ]
+      : []),
+    ...(mapMoonlight
+      ? [
+          {
+            story: mapMoonlight,
+            tagline: "Love, against the odds across uncharted skies.",
+          },
+        ]
+      : []),
+    ...(lanternRow
+      ? [
+          {
+            story: lanternRow,
+            tagline: "A little magic. A place to belong.",
+          },
+        ]
+      : []),
+  ];
+
   return (
     <LibraryShell>
       <main id="main" className="page-width">
-        <section className="hero" aria-label="Featured story">
-          <Image
-            className="hero-art"
-            src="/mock/heroes/blood-orchard.webp"
-            alt="A lone heir beneath crimson orchard trees, facing a ruined manor under the moon"
-            fill
-            sizes="(max-width: 1440px) 100vw, 1360px"
-            preload
-          />
-          <div className="hero-main">
-            <span className="hero-kicker">
-              InkFlow Public Library <span className="tiny-dot" /> Demo edition
-            </span>
-            <h1>EXPLORE</h1>
-            <div className="hero-bottom">
-              <p className="hero-tagline">
-                Stories
-                <br />
-                beyond
-                <br />
-                <em>imagination.</em>
-              </p>
-              <div className="hero-intro">
-                <p>
-                  Original voices.
-                  <br />
-                  Uncharted worlds.
-                  <br />
-                  Your next great read.
-                </p>
-                <Link
-                  className="circle-link"
-                  aria-label="Explore all stories"
-                  href="/explore"
-                >
-                  <ArrowUpRight size={28} />
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="hero-rail">
-            <span className="eyebrow">The featured story</span>
-            <h2>{featured?.title ?? "The Blood Orchard"}</h2>
-            <span className="rail-rule" />
-            <p>
-              A name erased.
-              <br />
-              An orchard that remembers.
-            </p>
-            <Link className="text-link" href="/stories/the-blood-orchard">
-              Discover the story <ArrowRight size={17} />
-            </Link>
-            <Link
-              className="button"
-              href="/stories/the-blood-orchard/chapters/chapter-1"
-            >
-              Start reading <ArrowUpRight size={17} />
-            </Link>
-          </div>
-        </section>
+        <HeroSlider items={featuredItems} />
         <nav className="genre-strip" aria-label="Browse by genre">
           <span className="eyebrow">Genres</span>
           <Link className="genre-all" href="/explore">
