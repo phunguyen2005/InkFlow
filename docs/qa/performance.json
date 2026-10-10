@@ -1,0 +1,32 @@
+{
+  "environment": "Local Next.js production server; Chrome; 390x844; 4x CPU slowdown; 150ms latency; 1.6Mbps download; new browser context each run; server image cache may be warm",
+  "runs": [
+    {
+      "lcp": 4044,
+      "cls": 0,
+      "fcp": 4044,
+      "resources": 569416,
+      "errors": []
+    },
+    {
+      "lcp": 2912,
+      "cls": 0,
+      "fcp": 2912,
+      "resources": 601283,
+      "errors": []
+    },
+    {
+      "lcp": 3148,
+      "cls": 0,
+      "fcp": 3148,
+      "resources": 439501,
+      "errors": []
+    }
+  ],
+  "median": {
+    "lcp": 3148,
+    "cls": 0,
+    "fcp": 3148
+  },
+  "limitations": "Lab sample only, not field Core Web Vitals or INP measurement."
+}

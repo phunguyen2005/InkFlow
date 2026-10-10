@@ -72,6 +72,80 @@ Both experiences share a common product identity while serving different needs.
 
 Product requirements, design specifications, engineering decisions, and implementation guidelines are organized separately to maintain clear responsibilities between product design and technical development.
 
+## Developer Operations & Getting Started
+
+### Prerequisites
+- Node.js 20+ (recommended LTS)
+- npm 10+
+- **Windows PowerShell Note**: On Windows PowerShell or Command Prompt, execute commands using `npm.cmd` and `npx.cmd` to ensure correct shell execution.
+
+### Installation
+Clone the repository and install dependencies:
+```powershell
+npm.cmd install
+```
+
+### Local Development Server
+Start the Next.js App Router development server:
+```powershell
+npm.cmd run dev
+```
+*Note: The `predev` script automatically executes `npm run content` to compile catalog fixtures from `content-library.md`.*  
+The application is accessible at `http://127.0.0.1:3000`.
+
+### Code Quality & Validation
+Run linting, typechecking, and unit tests:
+```powershell
+# Run ESLint across Next.js codebase
+npm.cmd run lint
+
+# Generate Next.js types and verify TypeScript without emitting output
+npm.cmd run typecheck
+
+# Run Vitest unit test suite (8 tests covering catalog fidelity, filters, and storage)
+npm.cmd test
+```
+
+### Production Build & Run
+To test the production build locally:
+```powershell
+# Compile production bundle
+npm.cmd run build
+
+# Start local production server
+npm.cmd run start
+```
+The production server will listen at `http://127.0.0.1:3000`.
+
+### End-to-End (E2E) Testing
+Playwright E2E tests run against the production build:
+```powershell
+# Ensure Chromium browser is installed
+npx.cmd playwright install chromium
+
+# Run all 6 Playwright E2E tests
+npm.cmd run test:e2e
+```
+*Tip: If running against a server on a different port, set `$env:PLAYWRIGHT_BASE_URL="http://127.0.0.1:3001"`.*
+
+### Lab Performance Benchmarking
+Measure synthetic mobile performance (3 iterations with 4x CPU throttling & 150ms network latency):
+```powershell
+node scripts/measure-performance.mjs
+```
+Results are saved to `docs/qa/performance.json`.
+
+### Public Library Routes
+The Public Library foundation implements the following five routes:
+- `/` — Public Library Homepage (Discovery shelves, hero artwork, genre quick-links)
+- `/explore` — Search & Filter Catalog (Multi-genre, tropes, completion status, URL state)
+- `/stories/[storySlug]` — Story Detail & Chapter Index
+- `/stories/[storySlug]/chapters/[chapterSlug]` — Focused Reader Shell (Theme, font sizing, reading progress)
+- `/authors/[authorSlug]` — Public Author Profile & Published Works
+
+### Architectural Boundary Notice
+This foundation represents the **Public Library** only. InkFlow Studio drafting workflows, Canon Engine tools, editorial moderation queues, and live AI generation are private author workspaces and are intentionally not included in public routes.
+
 ---
 
 **InkFlow Studio** is a working product name, subject to trademark and legal verification.
