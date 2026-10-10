@@ -546,7 +546,7 @@ fieldset {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 24px 14px 20px 20px;
   background: #0b1013ed;
   border-left: 1px solid #ffffff17;
@@ -674,8 +674,8 @@ fieldset {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   background: transparent;
   border: 0;
@@ -2254,8 +2254,8 @@ input[type="radio"] {
     gap: 4px;
   }
   .hero-arrow-btn {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
   }
   .hero-rail .text-link {
     font-size: 9px;
