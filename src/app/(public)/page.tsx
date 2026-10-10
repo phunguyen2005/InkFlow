@@ -43,7 +43,8 @@ export default async function HomePage() {
       ? [
           {
             story: mapMoonlight,
-            tagline: "Love, against the odds across uncharted skies.",
+            heroImage: "/mock/heroes/a-map-for-moonlight.webp",
+            tagline: "A cartographer who draws dreams. A prince who never sleeps.",
           },
         ]
       : []),
@@ -51,7 +52,8 @@ export default async function HomePage() {
       ? [
           {
             story: lanternRow,
-            tagline: "A little magic. A place to belong.",
+            heroImage: "/mock/heroes/the-lanterns-of-briar-row.webp",
+            tagline: "A botanical haven whose flowers bloom only for secrets.",
           },
         ]
       : []),

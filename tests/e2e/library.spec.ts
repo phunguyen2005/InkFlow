@@ -210,3 +210,46 @@ test("all catalog destinations and original artwork exist", async ({
     expect((await request.get(`/authors/${author.slug}`)).status()).toBe(200);
   }
 });
+
+test("hero slider navigation, controls, and layout stability", async ({ page }) => {
+  await page.goto("/");
+  const heroRail = page.locator(".hero-rail");
+  await expect(heroRail).toBeVisible();
+
+  // Verify counter like "1 / 4" is removed
+  await expect(heroRail.locator(".hero-slide-counter")).toHaveCount(0);
+  await expect(heroRail.getByText(/1\s*\/\s*4/)).toHaveCount(0);
+
+  // Initial slide title
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("The Blood Orchard");
+
+  // Record vertical position of Start reading button
+  const startReadingBtn = heroRail.getByRole("link", { name: /Start reading/ });
+  const initialBox = await startReadingBtn.boundingBox();
+  expect(initialBox).not.toBeNull();
+
+  // Advance using Next button
+  const nextBtn = page.getByRole("button", { name: "Next featured story" });
+  await nextBtn.click();
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("The Quiet Machine at Dawn");
+
+  // Check vertical stability (Y position should remain stable within 4px)
+  const nextBox = await startReadingBtn.boundingBox();
+  expect(nextBox).not.toBeNull();
+  expect(Math.abs((nextBox?.y || 0) - (initialBox?.y || 0))).toBeLessThanOrEqual(4);
+
+  // Direct segment click
+  const thirdSegment = page.getByRole("button", { name: /Show story 3:/ });
+  await thirdSegment.click();
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("A Map for Moonlight");
+
+  // Fourth segment
+  const fourthSegment = page.getByRole("button", { name: /Show story 4:/ });
+  await fourthSegment.click();
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("The Lanterns of Briar Row");
+
+  // Previous button
+  const prevBtn = page.getByRole("button", { name: "Previous featured story" });
+  await prevBtn.click();
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("A Map for Moonlight");
+});

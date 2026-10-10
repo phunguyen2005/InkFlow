@@ -2,7 +2,7 @@
 
 All 20 cover images and the Blood Orchard hero are original bitmap illustrations generated with the built-in image_gen tool for this implementation. No third-party cover from content-library.md is hotlinked or redistributed. Original imageRefIds and sourcePage references remain in the imported source data for traceability.
 
-Final assets: `public/mock/covers/*.webp` (768 x 1024) and `public/mock/heroes/blood-orchard.webp`. Mapping and dimensions are recorded in `asset-manifest.json`. Author avatars are initials, not portraits of real people. Sharp is used only for image encoding, delivery-size normalization and QA contact sheets.
+Final assets: `public/mock/covers/*.webp` (768 x 1024) and `public/mock/heroes/*.webp` (wide landscape heroes for featured slider). Mapping and dimensions are recorded in `asset-manifest.json`. Author avatars are initials, not portraits of real people. Sharp is used only for image encoding, delivery-size normalization and QA contact sheets.
 
 Prompt template: "Use case: illustration-story. Asset: original premium literary fiction book cover, portrait 3:4. Scene: [story-specific scene]. Style: expressive painterly illustration with graphic-novel ink textures, excellent hand-painted composition, rich complex detail, confident silhouettes and a strong sense of scale. Beautiful readable subject with atmospheric depth. Not a photograph, not an existing franchise. Full-bleed artwork only, NO text, no title, no letters, no frame, no logo, no watermark. This is a standalone image to be used under HTML titles on a literary library website."
 
@@ -31,6 +31,6 @@ Scenes used:
 | A Season of Borrowed Stars | Magician and astrologer on rooftop, falling constellation, coral and indigo |
 | The Iron Orchard | Archivist with treaty among metallic trees, silver fruit and old palace |
 
-Hero prompt: wide 2:1 cinematic gothic orchard with the exiled heir and manor on the right, naturally dark branches on the left for HTML copy, crimson leaves, ivory moon, charcoal and silver. No typography, logo, watermark or screenshot UI inside the asset.
+Hero prompt: wide 2:1 / 16:9 cinematic landscape with the main subject on the right, naturally dark values on the left for HTML copy, rich atmospheric lighting, and high textural depth. No typography, logo, watermark or screenshot UI inside the asset. Generated heroes include *The Blood Orchard*, *The Quiet Machine at Dawn*, *A Map for Moonlight*, *The Lanterns of Briar Row*, and *The Saltwind Atlas*.
 
-Selected final generation records for the last five assets are also retained as JSON. The delivered WebP files are self-contained; the application never depends on the original generation directory.
+Selected final generation records for the assets are also retained as JSON. The delivered WebP files are self-contained; the application never depends on the original generation directory.

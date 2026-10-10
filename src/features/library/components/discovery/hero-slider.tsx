@@ -1,10 +1,26 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { StorySummary } from "@/features/library/types/library";
+
+function subscribeReducedMotion(callback: () => void) {
+  if (typeof window === "undefined") return () => {};
+  const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+}
+
+function getReducedMotionSnapshot() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getReducedMotionServerSnapshot() {
+  return false;
+}
 
 export interface FeaturedStoryItem {
   story: StorySummary;
@@ -20,7 +36,12 @@ interface HeroSliderProps {
 export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot
+  );
 
   const currentItem = items[currentIndex] || items[0];
 
@@ -32,28 +53,76 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
     setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   }, [items.length]);
 
+  // Autoplay timer
   useEffect(() => {
-    if (isPaused || items.length <= 1) return;
+    if (isPaused || prefersReducedMotion || items.length <= 1) return;
 
-    timerRef.current = setInterval(() => {
+    const timer = setInterval(() => {
       goToNext();
     }, autoPlayIntervalMs);
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      clearInterval(timer);
     };
-  }, [isPaused, items.length, autoPlayIntervalMs, goToNext]);
+  }, [isPaused, prefersReducedMotion, items.length, autoPlayIntervalMs, goToNext]);
+
+  // Pause on background tab
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.hidden) {
+        setIsPaused(true);
+      } else {
+        setIsPaused(false);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
+
+  // Keyboard navigation
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goToPrev();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goToNext();
+      }
+    },
+    [goToPrev, goToNext]
+  );
+
+  // Swipe handling
+  const handlePointerDown = (e: React.PointerEvent) => {
+    touchStartX.current = e.clientX;
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = e.clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) goToPrev();
+      else goToNext();
+    }
+  };
 
   if (!currentItem) return null;
 
   return (
     <section
-      className="hero"
+      className={`hero ${isPaused || prefersReducedMotion ? "is-paused" : ""}`}
       aria-label="Featured stories"
+      aria-roledescription="carousel"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
+      onKeyDown={handleKeyDown}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      style={{ "--hero-interval": `${autoPlayIntervalMs}ms` } as React.CSSProperties}
     >
       {/* Background Images with crossfade */}
       <div className="hero-art-layer" aria-hidden="true">
@@ -115,32 +184,14 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
       <div className="hero-rail">
         <div className="hero-rail-header">
           <span className="eyebrow">The featured story</span>
-          {items.length > 1 && (
-            <div className="hero-slider-nav" aria-label="Slider navigation">
-              <button
-                type="button"
-                className="hero-nav-btn"
-                onClick={goToPrev}
-                aria-label="Previous featured story"
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <span className="hero-slide-counter" aria-live="polite">
-                {currentIndex + 1} / {items.length}
-              </span>
-              <button
-                type="button"
-                className="hero-nav-btn"
-                onClick={goToNext}
-                aria-label="Next featured story"
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* Content with smooth fade */}
+        {/* Screen reader live announcement */}
+        <div className="sr-only" aria-live="polite">
+          Featured story {currentIndex + 1} of {items.length}: {currentItem.story.title}
+        </div>
+
+        {/* Content with stable vertical dimensions */}
         <div key={currentItem.story.id} className="hero-rail-content animate-fade">
           <h2>{currentItem.story.title}</h2>
           <span className="rail-rule" />
@@ -161,22 +212,43 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
           </Link>
         </div>
 
-        {/* Progress Dots */}
+        {/* Bottom controls: segments + clean arrow buttons */}
         {items.length > 1 && (
-          <div className="hero-dots" role="tablist" aria-label="Featured stories selection">
-            {items.map((item, idx) => (
+          <div className="hero-controls" aria-label="Slider navigation">
+            <div className="hero-progress" aria-label="Featured stories">
+              {items.map((item, idx) => (
+                <button
+                  key={item.story.id}
+                  type="button"
+                  aria-current={idx === currentIndex ? "true" : undefined}
+                  aria-label={`Show story ${idx + 1}: ${item.story.title}`}
+                  className={`hero-segment ${idx === currentIndex ? "active" : ""}`}
+                  onClick={() => setCurrentIndex(idx)}
+                >
+                  <span className="hero-segment-track">
+                    <span className="hero-segment-fill" />
+                  </span>
+                </button>
+              ))}
+            </div>
+            <div className="hero-arrows">
               <button
-                key={item.story.id}
                 type="button"
-                role="tab"
-                aria-selected={idx === currentIndex}
-                aria-label={`Slide ${idx + 1}: ${item.story.title}`}
-                className={`hero-dot ${idx === currentIndex ? "active" : ""}`}
-                onClick={() => setCurrentIndex(idx)}
+                className="hero-arrow-btn"
+                onClick={goToPrev}
+                aria-label="Previous featured story"
               >
-                <span className="hero-dot-indicator" />
+                <ChevronLeft size={20} />
               </button>
-            ))}
+              <button
+                type="button"
+                className="hero-arrow-btn"
+                onClick={goToNext}
+                aria-label="Next featured story"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
           </div>
         )}
       </div>

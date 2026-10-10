@@ -158,5 +158,40 @@
     "width": 768,
     "height": 1024,
     "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-blood-orchard-hero",
+    "path": "public/mock/heroes/blood-orchard.webp",
+    "width": 1774,
+    "height": 887,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-quiet-machine-at-dawn-hero",
+    "path": "public/mock/heroes/the-quiet-machine-at-dawn.webp",
+    "width": 1024,
+    "height": 571,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "a-map-for-moonlight-hero",
+    "path": "public/mock/heroes/a-map-for-moonlight.webp",
+    "width": 1024,
+    "height": 571,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-lanterns-of-briar-row-hero",
+    "path": "public/mock/heroes/the-lanterns-of-briar-row.webp",
+    "width": 1024,
+    "height": 571,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-saltwind-atlas-hero",
+    "path": "public/mock/heroes/the-saltwind-atlas.webp",
+    "width": 1024,
+    "height": 571,
+    "origin": "Original generated illustration; built-in image_gen"
   }
 ]
