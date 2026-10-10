@@ -34,6 +34,7 @@ export default async function HomePage() {
       ? [
           {
             story: quietMachine,
+            heroImage: "/mock/heroes/the-quiet-machine-at-dawn.webp",
             tagline: "A silent machine drifting beyond the mapped moons.",
           },
         ]
