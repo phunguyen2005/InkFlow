@@ -1,0 +1,162 @@
+[
+  {
+    "slug": "the-blood-orchard",
+    "path": "public/mock/covers/the-blood-orchard.webp",
+    "sourceFile": "exec-30e0fba8-d49d-47d1-9311-8c14e741dd22.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-quiet-machine-at-dawn",
+    "path": "public/mock/covers/the-quiet-machine-at-dawn.webp",
+    "sourceFile": "exec-9bd415f5-f9a9-41e6-acbc-86a14eb04978.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "a-map-for-moonlight",
+    "path": "public/mock/covers/a-map-for-moonlight.webp",
+    "sourceFile": "exec-d1757d57-5350-4ba4-9565-f9a32636a837.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-house-beneath-the-stairs",
+    "path": "public/mock/covers/the-house-beneath-the-stairs.webp",
+    "sourceFile": "exec-0933b748-ce96-4f44-94f1-6b32bf27fd59.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "snowfall-at-room-seven",
+    "path": "public/mock/covers/snowfall-at-room-seven.webp",
+    "sourceFile": "exec-f8c20258-3303-4648-b236-9cfefdbb3e46.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-alchemists-second-life",
+    "path": "public/mock/covers/the-alchemists-second-life.webp",
+    "sourceFile": "exec-85a45274-78ee-4557-b2f7-51ef8a5922c2.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-saltwind-atlas",
+    "path": "public/mock/covers/the-saltwind-atlas.webp",
+    "sourceFile": "exec-c434234c-ffb9-4453-b521-2bc9a2f37e67.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-velvet-treaty",
+    "path": "public/mock/covers/the-velvet-treaty.webp",
+    "sourceFile": "exec-d8e2d3af-4733-42f0-a150-7d958c534c9d.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-lanterns-of-briar-row",
+    "path": "public/mock/covers/the-lanterns-of-briar-row.webp",
+    "sourceFile": "exec-9007ffa3-b0c0-46a0-be8d-939e6257fd36.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "black-signal",
+    "path": "public/mock/covers/black-signal.webp",
+    "sourceFile": "exec-acda4c72-70c0-4797-97c8-6eddbae0703d.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-last-level-before-dawn",
+    "path": "public/mock/covers/the-last-level-before-dawn.webp",
+    "sourceFile": "exec-72126d1d-167d-4010-baab-875bcacd67ad.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-fox-in-the-rain-court",
+    "path": "public/mock/covers/the-fox-in-the-rain-court.webp",
+    "sourceFile": "exec-00e22c53-e087-4f41-8c8e-37b6bdcad17a.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-unreliable-moon",
+    "path": "public/mock/covers/the-unreliable-moon.webp",
+    "sourceFile": "exec-0ff87902-598a-4e07-bdf6-65ad80a0d906.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "a-knife-for-every-name",
+    "path": "public/mock/covers/a-knife-for-every-name.webp",
+    "sourceFile": "exec-9123e5b4-6b54-4a55-96f7-9486d1e187cc.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-detective-of-small-miracles",
+    "path": "public/mock/covers/the-detective-of-small-miracles.webp",
+    "sourceFile": "exec-b5182cee-fbf4-4986-8df6-0436b851d2a1.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "a-season-of-borrowed-stars",
+    "path": "public/mock/covers/a-season-of-borrowed-stars.webp",
+    "sourceFile": "exec-df9e308a-50df-490e-8d0f-34f40b2e2e8e.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-city-that-forgot-its-name",
+    "path": "public/mock/covers/the-city-that-forgot-its-name.webp",
+    "sourceFile": "exec-a8e38557-7550-4bfd-a4ac-fda1aa6dd394.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-crownless-tournament",
+    "path": "public/mock/covers/the-crownless-tournament.webp",
+    "sourceFile": "exec-477b53fa-1565-4c15-ad99-44faa344670f.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-iron-orchard",
+    "path": "public/mock/covers/the-iron-orchard.webp",
+    "sourceFile": "exec-216be99b-2bad-4309-9075-12233a071dbd.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  },
+  {
+    "slug": "the-river-keeps-score",
+    "path": "public/mock/covers/the-river-keeps-score.webp",
+    "sourceFile": "exec-93f018e8-f462-43b0-8835-c42a95a71f9f.png",
+    "width": 768,
+    "height": 1024,
+    "origin": "Original generated illustration; built-in image_gen"
+  }
+]
