@@ -1,0 +1,1108 @@
+{
+  "authors": [
+    {
+      "id": "author-001",
+      "name": "Mara Voss",
+      "slug": "mara-voss",
+      "avatarRefId": "img-002",
+      "bio": "Writes gothic fantasy about inheritance, bloodlines, and impossible bargains.",
+      "location": "Edinburgh",
+      "language": "English",
+      "declaredWorkCount": 3
+    },
+    {
+      "id": "author-002",
+      "name": "Elias North",
+      "slug": "elias-north",
+      "avatarRefId": "img-039",
+      "bio": "A speculative fiction writer drawn to memory, machinery, and lonely frontiers.",
+      "location": "Toronto",
+      "language": "English",
+      "declaredWorkCount": 2
+    },
+    {
+      "id": "author-003",
+      "name": "Juniper Hale",
+      "slug": "juniper-hale",
+      "avatarRefId": "img-008",
+      "bio": "Creates romantic fantasy with gentle magic and sharp emotional reversals.",
+      "location": "Brighton",
+      "language": "English",
+      "declaredWorkCount": 4
+    },
+    {
+      "id": "author-004",
+      "name": "Rowan Kade",
+      "slug": "rowan-kade",
+      "avatarRefId": "img-025",
+      "bio": "Builds horror around ordinary places that become impossible to leave.",
+      "location": "Portland",
+      "language": "English",
+      "declaredWorkCount": 5
+    },
+    {
+      "id": "author-005",
+      "name": "Thea Mercer",
+      "slug": "thea-mercer",
+      "avatarRefId": "img-045",
+      "bio": "Writes quiet mysteries where observation matters more than spectacle.",
+      "location": "Dublin",
+      "language": "English",
+      "declaredWorkCount": 3
+    },
+    {
+      "id": "author-006",
+      "name": "Caleb Wynn",
+      "slug": "caleb-wynn",
+      "avatarRefId": "img-012",
+      "bio": "Blends progression fantasy with inventive professions and practical magic.",
+      "location": "Melbourne",
+      "language": "English",
+      "declaredWorkCount": 2
+    },
+    {
+      "id": "author-007",
+      "name": "Nia Okafor",
+      "slug": "nia-okafor",
+      "avatarRefId": "img-050",
+      "bio": "Tells warm, high-stakes adventures about found families and old maps.",
+      "location": "Lagos",
+      "language": "English",
+      "declaredWorkCount": 3
+    },
+    {
+      "id": "author-008",
+      "name": "Soren Bell",
+      "slug": "soren-bell",
+      "avatarRefId": "img-043",
+      "bio": "Writes historical fantasy with court politics and restrained romance.",
+      "location": "Copenhagen",
+      "language": "English",
+      "declaredWorkCount": 2
+    },
+    {
+      "id": "author-009",
+      "name": "Wren Ellis",
+      "slug": "wren-ellis",
+      "avatarRefId": "img-021",
+      "bio": "Specializes in contemporary supernatural fiction with dry humor.",
+      "location": "Manchester",
+      "language": "English",
+      "declaredWorkCount": 4
+    },
+    {
+      "id": "author-010",
+      "name": "Ada Laurent",
+      "slug": "ada-laurent",
+      "avatarRefId": "img-037",
+      "bio": "Creates luminous science fantasy about cities drifting between worlds.",
+      "location": "Montreal",
+      "language": "English",
+      "declaredWorkCount": 3
+    },
+    {
+      "id": "author-011",
+      "name": "Theo Grant",
+      "slug": "theo-grant",
+      "avatarRefId": "img-007",
+      "bio": "Writes action stories with flawed heroes and difficult second chances.",
+      "location": "Chicago",
+      "language": "English",
+      "declaredWorkCount": 2
+    },
+    {
+      "id": "author-012",
+      "name": "Imogen Hart",
+      "slug": "imogen-hart",
+      "avatarRefId": "img-016",
+      "bio": "Explores folklore, grief, and devotion through atmospheric romance.",
+      "location": "Cardiff",
+      "language": "English",
+      "declaredWorkCount": 3
+    },
+    {
+      "id": "author-013",
+      "name": "Felix Shore",
+      "slug": "felix-shore",
+      "avatarRefId": "img-006",
+      "bio": "Writes ensemble adventures set in worlds with unreliable maps.",
+      "location": "Auckland",
+      "language": "English",
+      "declaredWorkCount": 3
+    },
+    {
+      "id": "author-014",
+      "name": "Celeste Armitage",
+      "slug": "celeste-armitage",
+      "avatarRefId": "img-017",
+      "bio": "Builds morally complicated thrillers around reputation and hidden identities.",
+      "location": "Boston",
+      "language": "English",
+      "declaredWorkCount": 2
+    },
+    {
+      "id": "author-015",
+      "name": "Ravi Sen",
+      "slug": "ravi-sen",
+      "avatarRefId": "img-014",
+      "bio": "Creates optimistic LitRPG where systems reward cooperation.",
+      "location": "Singapore",
+      "language": "English",
+      "declaredWorkCount": 4
+    },
+    {
+      "id": "author-016",
+      "name": "Elowen Price",
+      "slug": "elowen-price",
+      "avatarRefId": "img-019",
+      "bio": "Writes small-town fantasy with botanical magic.",
+      "location": "Bristol",
+      "language": "English",
+      "declaredWorkCount": 3
+    },
+    {
+      "id": "author-017",
+      "name": "Miles Avery",
+      "slug": "miles-avery",
+      "avatarRefId": "img-049",
+      "bio": "Creates witty supernatural mysteries with reluctant investigators.",
+      "location": "Wellington",
+      "language": "English",
+      "declaredWorkCount": 2
+    },
+    {
+      "id": "author-018",
+      "name": "Soraya Finch",
+      "slug": "soraya-finch",
+      "avatarRefId": "img-023",
+      "bio": "Writes romantic political fantasy about treaties and chosen loyalty.",
+      "location": "Cape Town",
+      "language": "English",
+      "declaredWorkCount": 3
+    },
+    {
+      "id": "author-019",
+      "name": "Beckett Lane",
+      "slug": "beckett-lane",
+      "avatarRefId": "img-005",
+      "bio": "Creates survival fantasy with intimate character consequences.",
+      "location": "Glasgow",
+      "language": "English",
+      "declaredWorkCount": 2
+    },
+    {
+      "id": "author-020",
+      "name": "Hana Rivers",
+      "slug": "hana-rivers",
+      "avatarRefId": "img-041",
+      "bio": "Writes reflective literary fantasy about art and disappearing places.",
+      "location": "Vancouver",
+      "language": "English",
+      "declaredWorkCount": 3
+    }
+  ],
+  "stories": [
+    {
+      "id": "story-001",
+      "slug": "the-blood-orchard",
+      "title": "The Blood Orchard",
+      "authorId": "author-001",
+      "primaryGenre": "dark-fantasy",
+      "secondaryGenres": [
+        "gothic",
+        "mystery"
+      ],
+      "tropes": [
+        "cursed-inheritance",
+        "hidden-heir"
+      ],
+      "status": "ongoing",
+      "mood": "gothic, tense",
+      "imageRefId": "img-002",
+      "synopsis": "When disgraced heir Elian Vey returns to the estate that erased his name, every tree in the family orchard whispers the same missing girl's name.",
+      "rating": {
+        "average": 4.7,
+        "count": 184
+      },
+      "chapterCount": 24,
+      "publishedAt": "2026-09-21"
+    },
+    {
+      "id": "story-002",
+      "slug": "the-quiet-machine-at-dawn",
+      "title": "The Quiet Machine at Dawn",
+      "authorId": "author-002",
+      "primaryGenre": "science-fiction",
+      "secondaryGenres": [
+        "mystery",
+        "literary"
+      ],
+      "tropes": [
+        "lost-memory",
+        "artificial-consciousness"
+      ],
+      "status": "ongoing",
+      "mood": "reflective, cinematic",
+      "imageRefId": "img-039",
+      "synopsis": "A salvage pilot discovers a silent machine drifting beyond the mapped moons. It remembers her childhood, but its own name has been deleted.",
+      "rating": {
+        "average": 4.5,
+        "count": 96
+      },
+      "chapterCount": 18,
+      "publishedAt": "2026-08-14"
+    },
+    {
+      "id": "story-003",
+      "slug": "a-map-for-moonlight",
+      "title": "A Map for Moonlight",
+      "authorId": "author-003",
+      "primaryGenre": "romantic-fantasy",
+      "secondaryGenres": [
+        "adventure",
+        "cozy"
+      ],
+      "tropes": [
+        "magical-cartographer",
+        "slow-burn"
+      ],
+      "status": "completed",
+      "mood": "tender, luminous",
+      "imageRefId": "img-008",
+      "synopsis": "A cartographer who can only draw places she has dreamed of is hired by a prince who has never slept.",
+      "rating": {
+        "average": 4.8,
+        "count": 321
+      },
+      "chapterCount": 32,
+      "publishedAt": "2026-07-02"
+    },
+    {
+      "id": "story-004",
+      "slug": "the-house-beneath-the-stairs",
+      "title": "The House Beneath the Stairs",
+      "authorId": "author-004",
+      "primaryGenre": "horror",
+      "secondaryGenres": [
+        "psychological",
+        "supernatural"
+      ],
+      "tropes": [
+        "haunted-house",
+        "time-loop"
+      ],
+      "status": "ongoing",
+      "mood": "claustrophobic, unsettling",
+      "imageRefId": "img-026",
+      "synopsis": "Every tenant in Marrow House remembers a different number of floors. June finds a staircase under the kitchen.",
+      "rating": {
+        "average": 4.4,
+        "count": 142
+      },
+      "chapterCount": 15,
+      "publishedAt": "2026-09-08"
+    },
+    {
+      "id": "story-005",
+      "slug": "snowfall-at-room-seven",
+      "title": "Snowfall at Room Seven",
+      "authorId": "author-005",
+      "primaryGenre": "mystery",
+      "secondaryGenres": [
+        "contemporary",
+        "drama"
+      ],
+      "tropes": [
+        "locked-room",
+        "old-secrets"
+      ],
+      "status": "completed",
+      "mood": "quiet, wintry",
+      "imageRefId": "img-048",
+      "synopsis": "A remote hotel loses power during the first snowstorm. By morning one guest is missing and every room contains a different confession.",
+      "rating": {
+        "average": 4.6,
+        "count": 207
+      },
+      "chapterCount": 20,
+      "publishedAt": "2026-06-18"
+    },
+    {
+      "id": "story-006",
+      "slug": "the-alchemists-second-life",
+      "title": "The Alchemist's Second Life",
+      "authorId": "author-006",
+      "primaryGenre": "progression-fantasy",
+      "secondaryGenres": [
+        "litrpg",
+        "adventure"
+      ],
+      "tropes": [
+        "reincarnation",
+        "crafting"
+      ],
+      "status": "ongoing",
+      "mood": "inventive, hopeful",
+      "imageRefId": "img-012",
+      "synopsis": "A failed royal chemist wakes in a beginner's body and must build a potion shop in a city that bans unsanctioned miracles.",
+      "rating": {
+        "average": 4.3,
+        "count": 88
+      },
+      "chapterCount": 27,
+      "publishedAt": "2026-08-29"
+    },
+    {
+      "id": "story-007",
+      "slug": "the-saltwind-atlas",
+      "title": "The Saltwind Atlas",
+      "authorId": "author-007",
+      "primaryGenre": "adventure-fantasy",
+      "secondaryGenres": [
+        "high-fantasy",
+        "found-family"
+      ],
+      "tropes": [
+        "lost-map",
+        "sea-voyage"
+      ],
+      "status": "ongoing",
+      "mood": "expansive, warm",
+      "imageRefId": "img-050",
+      "synopsis": "Three navigators steal an atlas that redraws itself whenever someone tells the truth.",
+      "rating": {
+        "average": 4.7,
+        "count": 155
+      },
+      "chapterCount": 22,
+      "publishedAt": "2026-09-13"
+    },
+    {
+      "id": "story-008",
+      "slug": "the-velvet-treaty",
+      "title": "The Velvet Treaty",
+      "authorId": "author-018",
+      "primaryGenre": "political-fantasy",
+      "secondaryGenres": [
+        "historical",
+        "romance"
+      ],
+      "tropes": [
+        "political-marriage",
+        "rival-heirs"
+      ],
+      "status": "ongoing",
+      "mood": "elegant, strategic",
+      "imageRefId": "img-043",
+      "synopsis": "To stop a border war, diplomat Sera must marry the heir whose family destroyed her city.",
+      "rating": {
+        "average": 4.6,
+        "count": 173
+      },
+      "chapterCount": 19,
+      "publishedAt": "2026-08-03"
+    },
+    {
+      "id": "story-009",
+      "slug": "the-lanterns-of-briar-row",
+      "title": "The Lanterns of Briar Row",
+      "authorId": "author-016",
+      "primaryGenre": "cozy-fantasy",
+      "secondaryGenres": [
+        "contemporary",
+        "supernatural"
+      ],
+      "tropes": [
+        "small-town",
+        "botanical-magic"
+      ],
+      "status": "completed",
+      "mood": "warm, quietly magical",
+      "imageRefId": "img-019",
+      "synopsis": "A florist inherits a shop whose flowers bloom only for people carrying a secret.",
+      "rating": {
+        "average": 4.9,
+        "count": 412
+      },
+      "chapterCount": 28,
+      "publishedAt": "2026-05-26"
+    },
+    {
+      "id": "story-010",
+      "slug": "black-signal",
+      "title": "Black Signal",
+      "authorId": "author-014",
+      "primaryGenre": "thriller",
+      "secondaryGenres": [
+        "science-fiction",
+        "mystery"
+      ],
+      "tropes": [
+        "false-identity",
+        "conspiracy"
+      ],
+      "status": "ongoing",
+      "mood": "sharp, paranoid",
+      "imageRefId": "img-017",
+      "synopsis": "A crisis negotiator receives a broadcast from a dead operative that predicts scandals one day early.",
+      "rating": {
+        "average": 4.5,
+        "count": 119
+      },
+      "chapterCount": 17,
+      "publishedAt": "2026-09-27"
+    },
+    {
+      "id": "story-011",
+      "slug": "the-last-level-before-dawn",
+      "title": "The Last Level Before Dawn",
+      "authorId": "author-015",
+      "primaryGenre": "litrpg",
+      "secondaryGenres": [
+        "action",
+        "progression-fantasy"
+      ],
+      "tropes": [
+        "cooperative-system",
+        "raid-party"
+      ],
+      "status": "ongoing",
+      "mood": "kinetic, optimistic",
+      "imageRefId": "img-014",
+      "synopsis": "A support-class player recruits abandoned teams for a dungeon that resets every sunrise.",
+      "rating": {
+        "average": 4.4,
+        "count": 132
+      },
+      "chapterCount": 31,
+      "publishedAt": "2026-07-30"
+    },
+    {
+      "id": "story-012",
+      "slug": "the-fox-in-the-rain-court",
+      "title": "The Fox in the Rain Court",
+      "authorId": "author-012",
+      "primaryGenre": "supernatural-romance",
+      "secondaryGenres": [
+        "folklore",
+        "historical"
+      ],
+      "tropes": [
+        "spirit-court",
+        "secret-identity"
+      ],
+      "status": "completed",
+      "mood": "wistful, folkloric",
+      "imageRefId": "img-016",
+      "synopsis": "A court musician is promised to a fox spirit who arrives wearing her missing sister's face.",
+      "rating": {
+        "average": 4.8,
+        "count": 287
+      },
+      "chapterCount": 25,
+      "publishedAt": "2026-06-05"
+    },
+    {
+      "id": "story-013",
+      "slug": "the-unreliable-moon",
+      "title": "The Unreliable Moon",
+      "authorId": "author-010",
+      "primaryGenre": "science-fantasy",
+      "secondaryGenres": [
+        "adventure",
+        "mystery"
+      ],
+      "tropes": [
+        "floating-city",
+        "unreliable-reality"
+      ],
+      "status": "ongoing",
+      "mood": "surreal, bright",
+      "imageRefId": "img-037",
+      "synopsis": "The moon above Aster Vale changes shape whenever someone lies.",
+      "rating": {
+        "average": 4.6,
+        "count": 101
+      },
+      "chapterCount": 16,
+      "publishedAt": "2026-09-04"
+    },
+    {
+      "id": "story-014",
+      "slug": "a-knife-for-every-name",
+      "title": "A Knife for Every Name",
+      "authorId": "author-011",
+      "primaryGenre": "action-fantasy",
+      "secondaryGenres": [
+        "revenge",
+        "dark-fantasy"
+      ],
+      "tropes": [
+        "assassin",
+        "cursed-weapon"
+      ],
+      "status": "ongoing",
+      "mood": "brutal, fast",
+      "imageRefId": "img-007",
+      "synopsis": "An assassin's cursed blade records every name she refuses to kill, including strangers she has never met.",
+      "rating": {
+        "average": 4.2,
+        "count": 74
+      },
+      "chapterCount": 14,
+      "publishedAt": "2026-09-19"
+    },
+    {
+      "id": "story-015",
+      "slug": "the-detective-of-small-miracles",
+      "title": "The Detective of Small Miracles",
+      "authorId": "author-017",
+      "primaryGenre": "supernatural-mystery",
+      "secondaryGenres": [
+        "comedy",
+        "contemporary"
+      ],
+      "tropes": [
+        "odd-couple",
+        "urban-magic"
+      ],
+      "status": "completed",
+      "mood": "witty, heartfelt",
+      "imageRefId": "img-049",
+      "synopsis": "A detective who cannot see ghosts can still tell when one has lied. His new partner is a ghost who rearranges evidence.",
+      "rating": {
+        "average": 4.7,
+        "count": 236
+      },
+      "chapterCount": 21,
+      "publishedAt": "2026-04-22"
+    },
+    {
+      "id": "story-016",
+      "slug": "the-crownless-tournament",
+      "title": "The Crownless Tournament",
+      "authorId": "author-013",
+      "primaryGenre": "adventure-fantasy",
+      "secondaryGenres": [
+        "action",
+        "ensemble"
+      ],
+      "tropes": [
+        "tournament",
+        "secret-royal"
+      ],
+      "status": "ongoing",
+      "mood": "colorful, competitive",
+      "imageRefId": "img-006",
+      "synopsis": "Every champion thinks the tournament winner becomes king. The quietest competitor knows the winner becomes the kingdom's sacrifice.",
+      "rating": {
+        "average": 4.3,
+        "count": 91
+      },
+      "chapterCount": 23,
+      "publishedAt": "2026-08-21"
+    },
+    {
+      "id": "story-017",
+      "slug": "the-city-that-forgot-its-name",
+      "title": "The City That Forgot Its Name",
+      "authorId": "author-020",
+      "primaryGenre": "literary-fantasy",
+      "secondaryGenres": [
+        "magical-realism",
+        "drama"
+      ],
+      "tropes": [
+        "vanishing-place",
+        "memory"
+      ],
+      "status": "completed",
+      "mood": "contemplative, luminous",
+      "imageRefId": "img-005",
+      "synopsis": "A muralist arrives in a city where every street sign is blank and every resident remembers a different history.",
+      "rating": {
+        "average": 4.8,
+        "count": 194
+      },
+      "chapterCount": 18,
+      "publishedAt": "2026-03-11"
+    },
+    {
+      "id": "story-018",
+      "slug": "the-river-keeps-score",
+      "title": "The River Keeps Score",
+      "authorId": "author-019",
+      "primaryGenre": "survival-fantasy",
+      "secondaryGenres": [
+        "dark-fantasy",
+        "adventure"
+      ],
+      "tropes": [
+        "hostile-wilderness",
+        "sacrifice"
+      ],
+      "status": "ongoing",
+      "mood": "severe, elemental",
+      "imageRefId": "img-041",
+      "synopsis": "The river around a frontier fortress remembers every soldier it has taken. When it returns one alive, the fortress sends a scout.",
+      "rating": {
+        "average": 4.1,
+        "count": 68
+      },
+      "chapterCount": 12,
+      "publishedAt": "2026-09-30"
+    },
+    {
+      "id": "story-019",
+      "slug": "a-season-of-borrowed-stars",
+      "title": "A Season of Borrowed Stars",
+      "authorId": "author-009",
+      "primaryGenre": "contemporary-fantasy",
+      "secondaryGenres": [
+        "romance",
+        "supernatural"
+      ],
+      "tropes": [
+        "fake-dating",
+        "second-chance"
+      ],
+      "status": "ongoing",
+      "mood": "bright, playful",
+      "imageRefId": "img-021",
+      "synopsis": "A stage magician's fake relationship with an astrologer is the only thing keeping a constellation from falling into the city.",
+      "rating": {
+        "average": 4.5,
+        "count": 113
+      },
+      "chapterCount": 13,
+      "publishedAt": "2026-09-11"
+    },
+    {
+      "id": "story-020",
+      "slug": "the-iron-orchard",
+      "title": "The Iron Orchard",
+      "authorId": "author-008",
+      "primaryGenre": "historical-fantasy",
+      "secondaryGenres": [
+        "political",
+        "mystery"
+      ],
+      "tropes": [
+        "court-intrigue",
+        "forbidden-technology"
+      ],
+      "status": "completed",
+      "mood": "polished, melancholic",
+      "imageRefId": "img-042",
+      "synopsis": "In a kingdom where orchards grow metal, an archivist uncovers a treaty proving the royal family manufactured its enemies.",
+      "rating": {
+        "average": 4.6,
+        "count": 167
+      },
+      "chapterCount": 26,
+      "publishedAt": "2026-02-19"
+    }
+  ],
+  "imageReferences": [
+    {
+      "id": "img-001",
+      "title": "Persona 5: Mementos Mission, Vol. 1",
+      "genre": "action / supernatural",
+      "mood": "graphic urban noir",
+      "sourcePage": "https://personacentral.com/persona-5-mementos-mission-manga-volume-1-cover-art-revealed/",
+      "note": "Original rights holders; use as action / supernatural visual reference only."
+    },
+    {
+      "id": "img-002",
+      "title": "Revenge of the Baskerville Bloodhound",
+      "genre": "dark fantasy / revenge",
+      "mood": "gothic crimson",
+      "sourcePage": "https://anitrendz.net/news/2025/07/04/ize-press-publishes-revenge-of-the-baskerville-bloodhound-manhwa-series-in-english-print-in-january-2026/",
+      "note": "Original rights holders; use as dark fantasy / revenge visual reference only."
+    },
+    {
+      "id": "img-003",
+      "title": "Fantasy manga portrait reference",
+      "genre": "fantasy illustration",
+      "mood": "painterly character-led",
+      "sourcePage": "https://www.pinterest.com/pin/370139663146892217/",
+      "note": "Original rights holders; use as fantasy illustration visual reference only."
+    },
+    {
+      "id": "img-004",
+      "title": "Nana Seiken to Maken no Hime",
+      "genre": "high fantasy / action",
+      "mood": "radiant magic and shadow",
+      "sourcePage": "https://anilist.co/manga/147472/Nana-Seiken-to-Maken-no-Hime/",
+      "note": "Original rights holders; use as high fantasy / action visual reference only."
+    },
+    {
+      "id": "img-005",
+      "title": "World End Solte, Vol. 2",
+      "genre": "post-apocalyptic fantasy",
+      "mood": "starry exploratory",
+      "sourcePage": "https://natalie.mu/comic/news/461195",
+      "note": "Original rights holders; use as post-apocalyptic fantasy visual reference only."
+    },
+    {
+      "id": "img-006",
+      "title": "Rosen Garten Saga",
+      "genre": "dark fantasy / comedy",
+      "mood": "baroque theatrical",
+      "sourcePage": "https://mangahelpers.com/forum/threads/rosen-garten-saga-by-fuji-sakimori-and-yousetsu-tonooka.3028791/",
+      "note": "Original rights holders; use as dark fantasy / comedy visual reference only."
+    },
+    {
+      "id": "img-007",
+      "title": "The Strongest Dark-Powered Hero",
+      "genre": "dark fantasy / isekai",
+      "mood": "purple-black revenge",
+      "sourcePage": "https://www.anibase.app/manga/fukushuu-wo-koinegau-saikyou-yuusha-wa-yami-no-chikara-de-senmetsu-musou-suru",
+      "note": "Original rights holders; use as dark fantasy / isekai visual reference only."
+    },
+    {
+      "id": "img-008",
+      "title": "Embrace Under Moonlit Magic",
+      "genre": "romantic fantasy",
+      "mood": "intimate moonlit",
+      "sourcePage": "https://booklive.jp/product/index/title_id/10009572/vol_no/021",
+      "note": "Original rights holders; use as romantic fantasy visual reference only."
+    },
+    {
+      "id": "img-009",
+      "title": "A Wild Last Boss Appeared!, Vol. 7",
+      "genre": "isekai / fantasy",
+      "mood": "cosmic regal",
+      "sourcePage": "https://www.storytel.com/tv/books/a-wild-last-boss-appeared-manga-volume-7-11775681",
+      "note": "Original rights holders; use as isekai / fantasy visual reference only."
+    },
+    {
+      "id": "img-010",
+      "title": "Tsukimichi: Moonlit Fantasy, Vol. 6",
+      "genre": "isekai / adventure",
+      "mood": "cosmic ensemble",
+      "sourcePage": "https://beta.thestorygraph.com/books/38437aec-ef33-453e-8692-0f5c7e59d352",
+      "note": "Original rights holders; use as isekai / adventure visual reference only."
+    },
+    {
+      "id": "img-011",
+      "title": "Good Deeds of Kane, Vol. 15",
+      "genre": "adventure fantasy",
+      "mood": "bright earnest",
+      "sourcePage": "https://mangapedia.com/%E3%81%8A%E3%81%A3%E3%81%95%E3%82%93%E5%86%92%E9%99%BA%E8%80%85%E3%82%B1%E3%82%A4%E3%83%B3%E3%81%AE%E5%96%84%E8%A1%8C-i724utinr",
+      "note": "Original rights holders; use as adventure fantasy visual reference only."
+    },
+    {
+      "id": "img-012",
+      "title": "I'm a Curse Crafter!, Vol. 9",
+      "genre": "LitRPG / fantasy",
+      "mood": "artifact action",
+      "sourcePage": "https://manga.kabala.vn/manga/146793",
+      "note": "Original rights holders; use as LitRPG / fantasy visual reference only."
+    },
+    {
+      "id": "img-013",
+      "title": "Reincarnated Apothecary, Vol. 1",
+      "genre": "fantasy / profession",
+      "mood": "pastel labyrinth city",
+      "sourcePage": "https://morning.kodansha.co.jp/c/tenseikusushi.html",
+      "note": "Original rights holders; use as fantasy / profession visual reference only."
+    },
+    {
+      "id": "img-014",
+      "title": "Versus, Vol. 1",
+      "genre": "isekai / action",
+      "mood": "stormy armored",
+      "sourcePage": "https://animecorner.me/versus-manga-releases-first-volume-isekai-story-from-one-mob-psycho-100-one-punch-man/",
+      "note": "Original rights holders; use as isekai / action visual reference only."
+    },
+    {
+      "id": "img-015",
+      "title": "Demon Bride, Vol. 1",
+      "genre": "supernatural romance",
+      "mood": "folkloric autumnal",
+      "sourcePage": "https://mill-vod.com/oni-love/",
+      "note": "Original rights holders; use as supernatural romance visual reference only."
+    },
+    {
+      "id": "img-016",
+      "title": "Taisho Fox Bride, Vol. 6",
+      "genre": "historical supernatural romance",
+      "mood": "traditional floral",
+      "sourcePage": "https://www.kadokawa.co.jp/product/322510001181/",
+      "note": "Original rights holders; use as historical supernatural romance visual reference only."
+    },
+    {
+      "id": "img-017",
+      "title": "Mary Psycho",
+      "genre": "thriller / romance",
+      "mood": "neon rain",
+      "sourcePage": "https://www.fnnews.com/news/202501070914405766",
+      "note": "Original rights holders; use as thriller / romance visual reference only."
+    },
+    {
+      "id": "img-018",
+      "title": "The Beginning After the End",
+      "genre": "fantasy / reincarnation",
+      "mood": "explosive colorful",
+      "sourcePage": "https://vortexscans.org/",
+      "note": "Original rights holders; use as fantasy / reincarnation visual reference only."
+    },
+    {
+      "id": "img-019",
+      "title": "Demon's Millennial Love, Vol. 1",
+      "genre": "supernatural romance",
+      "mood": "wisteria dreamlike",
+      "sourcePage": "https://shogakukan-comic.jp/book?isbn=9784098714674",
+      "note": "Original rights holders; use as supernatural romance visual reference only."
+    },
+    {
+      "id": "img-020",
+      "title": "The Meteor That Hides Your Flowers",
+      "genre": "gothic romance / vampire",
+      "mood": "rose velvet",
+      "sourcePage": "https://www.booklive.co.jp/topics/18056",
+      "note": "Original rights holders; use as gothic romance / vampire visual reference only."
+    },
+    {
+      "id": "img-021",
+      "title": "Crow Tengu's Beloved Covenant",
+      "genre": "folklore romance",
+      "mood": "wisteria kimono",
+      "sourcePage": "https://books.rakuten.co.jp/rb/18077007/",
+      "note": "Original rights holders; use as folklore romance visual reference only."
+    },
+    {
+      "id": "img-022",
+      "title": "Semi-Cohabitation Under the Full Moon",
+      "genre": "psychological romance",
+      "mood": "purple uneasy",
+      "sourcePage": "https://booklive.jp/product/index/title_id/1687114/vol_no/003",
+      "note": "Original rights holders; use as psychological romance visual reference only."
+    },
+    {
+      "id": "img-023",
+      "title": "Wounded Bride, Vol. 1",
+      "genre": "historical supernatural",
+      "mood": "camellia eerie",
+      "sourcePage": "https://natalie.mu/comic/news/547112",
+      "note": "Original rights holders; use as historical supernatural visual reference only."
+    },
+    {
+      "id": "img-024",
+      "title": "The Bride of the Man-Eating Demon",
+      "genre": "supernatural romance",
+      "mood": "crimson folkloric",
+      "sourcePage": "https://books.rakuten.co.jp/rb/18092865/",
+      "note": "Original rights holders; use as supernatural romance visual reference only."
+    },
+    {
+      "id": "img-025",
+      "title": "Pumpkin Night, Vol. 6",
+      "genre": "horror / slasher",
+      "mood": "blood-red unsettling",
+      "sourcePage": "https://www.ubuy.qa/en/product/81SW9RVZQ-pumpkin-night-comic-vol-1-7-yoma-taniguchi-masaya-hokazono-manga-book-japanese",
+      "note": "Original rights holders; use as horror / slasher visual reference only."
+    },
+    {
+      "id": "img-026",
+      "title": "Fuan no Tane PLUS",
+      "genre": "psychological horror",
+      "mood": "minimal grotesque",
+      "sourcePage": "https://www.senscritique.com/bd/fuan_no_tane/10336150",
+      "note": "Original rights holders; use as psychological horror visual reference only."
+    },
+    {
+      "id": "img-027",
+      "title": "One Hundred Ghost Stories",
+      "genre": "horror anthology",
+      "mood": "skeletal oppressive",
+      "sourcePage": "https://ameblo.jp/hepa0-0tica/entry-12865966838.html",
+      "note": "Original rights holders; use as horror anthology visual reference only."
+    },
+    {
+      "id": "img-028",
+      "title": "Hajime no Ippo, Vol. 18",
+      "genre": "sports / boxing",
+      "mood": "brushwork impact",
+      "sourcePage": "https://www.pinterest.com/pin/486177722287358503/",
+      "note": "Original rights holders; use as sports / boxing visual reference only."
+    },
+    {
+      "id": "img-029",
+      "title": "Soukyuu Boys, Vol. 15",
+      "genre": "sports / handball",
+      "mood": "athletic red",
+      "sourcePage": "https://x.com/pride_anime/status/1223986479111843841",
+      "note": "Original rights holders; use as sports / handball visual reference only."
+    },
+    {
+      "id": "img-030",
+      "title": "Tiempo, Vol. 10",
+      "genre": "sports / football",
+      "mood": "angular competitive",
+      "sourcePage": "https://www.s-manga.net/items/contents.html?isbn=9784088920474",
+      "note": "Original rights holders; use as sports / football visual reference only."
+    },
+    {
+      "id": "img-031",
+      "title": "BE BLUES!, Vol. 36",
+      "genre": "sports / football",
+      "mood": "blue-white resilient",
+      "sourcePage": "https://shogakukan-comic.jp/book?isbn=9784091293190",
+      "note": "Original rights holders; use as sports / football visual reference only."
+    },
+    {
+      "id": "img-032",
+      "title": "Offside, Vol. 1",
+      "genre": "sports / football",
+      "mood": "retro bold",
+      "sourcePage": "https://decadeview.ocnk.net/product/126",
+      "note": "Original rights holders; use as sports / football visual reference only."
+    },
+    {
+      "id": "img-033",
+      "title": "Little Slugger Rin, Vol. 6",
+      "genre": "sports / baseball",
+      "mood": "yellow-green focused",
+      "sourcePage": "https://www.kodansha.co.jp/comic/products/0000043163",
+      "note": "Original rights holders; use as sports / baseball visual reference only."
+    },
+    {
+      "id": "img-034",
+      "title": "DAYS, Vol. 1",
+      "genre": "sports / football",
+      "mood": "optimistic youthful",
+      "sourcePage": "https://medium.com/%40Flair2Play/aoashi-egoism-personified-d2769817f7b8",
+      "note": "Original rights holders; use as sports / football visual reference only."
+    },
+    {
+      "id": "img-035",
+      "title": "Ghost in the Shell: The Human Algorithm",
+      "genre": "sci-fi / cyberpunk",
+      "mood": "clinical mechanical",
+      "sourcePage": "https://medium.com/anitay-official/the-ghost-in-the-shell-the-human-algorithm-manga-volumes-1-4-review-8edea51b0d53",
+      "note": "Original rights holders; use as sci-fi / cyberpunk visual reference only."
+    },
+    {
+      "id": "img-036",
+      "title": "Metal K",
+      "genre": "sci-fi / body horror",
+      "mood": "retro uncanny",
+      "sourcePage": "https://video.unext.jp/book/title/BSD0000198134",
+      "note": "Original rights holders; use as sci-fi / body horror visual reference only."
+    },
+    {
+      "id": "img-037",
+      "title": "Knights of Sidonia",
+      "genre": "sci-fi / space opera",
+      "mood": "monochrome armored",
+      "sourcePage": "https://www.toy-people.com/?p=68723",
+      "note": "Original rights holders; use as sci-fi / space opera visual reference only."
+    },
+    {
+      "id": "img-038",
+      "title": "Terraformars, 1st Mission",
+      "genre": "sci-fi / survival",
+      "mood": "red-black militarized",
+      "sourcePage": "https://mangapedia.com/gd/r81z6gu89",
+      "note": "Original rights holders; use as sci-fi / survival visual reference only."
+    },
+    {
+      "id": "img-039",
+      "title": "Battle Angel Alita: Mars Chronicle",
+      "genre": "sci-fi / cyberpunk",
+      "mood": "industrial grayscale",
+      "sourcePage": "https://mangamart.com/collections/battle-angel-alita-mars-chronicle",
+      "note": "Original rights holders; use as sci-fi / cyberpunk visual reference only."
+    },
+    {
+      "id": "img-040",
+      "title": "Please Divorce Me",
+      "genre": "romance / drama",
+      "mood": "warm conflicted",
+      "sourcePage": "https://anibrain.ai/recommender/manga/188262",
+      "note": "Original rights holders; use as romance / drama visual reference only."
+    },
+    {
+      "id": "img-041",
+      "title": "Nagayao-ō Zanshōki, Vol. 2",
+      "genre": "historical drama",
+      "mood": "courtly floral",
+      "sourcePage": "https://www.kinokuniya.co.jp/f/dsg-01-9784122031074",
+      "note": "Original rights holders; use as historical drama visual reference only."
+    },
+    {
+      "id": "img-042",
+      "title": "Angolmois, Vol. 5",
+      "genre": "historical action",
+      "mood": "autumnal military",
+      "sourcePage": "https://www.japanzon.com/en/angolmois-genkou-kassenki-hakata-hen/32595-angolmois-genkou-kassenki-hakata-hen-vol5-kadokawa-comics-ace-japanese-version-9784041119235.html",
+      "note": "Original rights holders; use as historical action visual reference only."
+    },
+    {
+      "id": "img-043",
+      "title": "Hanayoi Dochu, Vol. 2",
+      "genre": "historical romance",
+      "mood": "elegant patterned",
+      "sourcePage": "https://books.rakuten.co.jp/rb/6453240/",
+      "note": "Original rights holders; use as historical romance visual reference only."
+    },
+    {
+      "id": "img-044",
+      "title": "Ooku Records, Vol. 1",
+      "genre": "historical political drama",
+      "mood": "red samurai",
+      "sourcePage": "https://books.rakuten.co.jp/rb/17114752/",
+      "note": "Original rights holders; use as historical political drama visual reference only."
+    },
+    {
+      "id": "img-045",
+      "title": "Don't Call It Mystery, Vol. 12",
+      "genre": "mystery / josei",
+      "mood": "snowy introspective",
+      "sourcePage": "https://www.goodreads.com/book/show/80344592-12-mystery-to-iunakare-12",
+      "note": "Original rights holders; use as mystery / josei visual reference only."
+    },
+    {
+      "id": "img-046",
+      "title": "Kaika Apartment, Vol. 2",
+      "genre": "mystery / historical",
+      "mood": "baroque red-black",
+      "sourcePage": "https://www.kadokawa.co.jp/product/322401000794/",
+      "note": "Original rights holders; use as mystery / historical visual reference only."
+    },
+    {
+      "id": "img-047",
+      "title": "Kindaichi Case Files 37, Vol. 14",
+      "genre": "mystery / thriller",
+      "mood": "wintry fractured",
+      "sourcePage": "https://www.maruzenjunkudo.co.jp/products/9784065328361",
+      "note": "Original rights holders; use as mystery / thriller visual reference only."
+    },
+    {
+      "id": "img-048",
+      "title": "Detective Xeno and Seven Locked Murder Rooms",
+      "genre": "mystery / locked-room",
+      "mood": "dusk procedural",
+      "sourcePage": "https://music-book.jp/comic/store/seriesDetails?seriesId=361645",
+      "note": "Original rights holders; use as mystery / locked-room visual reference only."
+    },
+    {
+      "id": "img-049",
+      "title": "Little Detective Trickstar Hoshi, Vol. 7",
+      "genre": "mystery / adventure",
+      "mood": "starry youthful",
+      "sourcePage": "https://mangapedia.com/gd/empmk00rl",
+      "note": "Original rights holders; use as mystery / adventure visual reference only."
+    },
+    {
+      "id": "img-050",
+      "title": "Galaxias, Vol. 1",
+      "genre": "fantasy sci-fi / adventure",
+      "mood": "teal-orange whimsical",
+      "sourcePage": "https://www.crunchyroll.com/pt-br/news/latest/2025/7/7/galaxias-panini-anuncio",
+      "note": "Original rights holders; use as fantasy sci-fi / adventure visual reference only."
+    }
+  ]
+}
