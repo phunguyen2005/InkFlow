@@ -1,0 +1,45 @@
+{
+  "name": "inkflow-library",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "content": "node scripts/import-content.mjs",
+    "predev": "npm run content",
+    "dev": "next dev --hostname 127.0.0.1",
+    "prebuild": "npm run content",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "lint": "eslint .",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "lucide-react": "1.54.0",
+    "mdast-util-to-string": "4.0.0",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-markdown": "10.1.0",
+    "remark-gfm": "4.0.1",
+    "remark-parse": "11.0.0",
+    "server-only": "0.0.1",
+    "tailwindcss": "4.3.3",
+    "unified": "11.0.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.64.0",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.0",
+    "prettier": "3.9.9",
+    "sharp": "0.35.5",
+    "typescript": "6.0.3",
+    "vitest": "5.0.3"
+  }
+}
