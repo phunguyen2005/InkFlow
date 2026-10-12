@@ -6,6 +6,7 @@ import {
   Source_Serif_4,
 } from "next/font/google";
 import "./globals.css";
+import { AccountProvider } from "@/features/account/account-provider";
 
 const display = Anton({
   weight: "400",
@@ -48,13 +49,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${display.variable} ${editorial.variable} ${ui.variable} ${prose.variable}`}
     >
       <body>
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        {children}
+        <AccountProvider>{children}</AccountProvider>
       </body>
     </html>
   );

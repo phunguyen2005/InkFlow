@@ -1,9 +1,22 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useSyncExternalStore,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
+} from "lucide-react";
 import type { StorySummary } from "@/features/library/types/library";
 
 function subscribeReducedMotion(callback: () => void) {
@@ -23,7 +36,11 @@ function getReducedMotionServerSnapshot() {
 }
 
 export interface FeaturedStoryItem {
-  story: StorySummary;
+  story: Pick<
+    StorySummary,
+    "id" | "slug" | "title" | "coverUrl" | "coverAlt" | "synopsisShort"
+  >;
+  firstChapterSlug: string | null;
   heroImage?: string;
   tagline?: string;
 }
@@ -33,50 +50,47 @@ interface HeroSliderProps {
   autoPlayIntervalMs?: number;
 }
 
-export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps) {
+export function HeroSlider({
+  items,
+  autoPlayIntervalMs = 6000,
+}: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasFocusWithin, setHasFocusWithin] = useState(false);
+  const [isDocumentHidden, setIsDocumentHidden] = useState(false);
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const prefersReducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
     getReducedMotionSnapshot,
-    getReducedMotionServerSnapshot
+    getReducedMotionServerSnapshot,
   );
+  const isPaused =
+    isHovered ||
+    hasFocusWithin ||
+    isDocumentHidden ||
+    isManuallyPaused ||
+    prefersReducedMotion;
 
   const currentItem = items[currentIndex] || items[0];
 
   const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % items.length);
+    if (items.length) setCurrentIndex((prev) => (prev + 1) % items.length);
   }, [items.length]);
 
   const goToPrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+    if (items.length)
+      setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   }, [items.length]);
-
-  // Autoplay timer
-  useEffect(() => {
-    if (isPaused || prefersReducedMotion || items.length <= 1) return;
-
-    const timer = setInterval(() => {
-      goToNext();
-    }, autoPlayIntervalMs);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [isPaused, prefersReducedMotion, items.length, autoPlayIntervalMs, goToNext]);
 
   // Pause on background tab
   useEffect(() => {
     const handleVisibility = () => {
-      if (document.hidden) {
-        setIsPaused(true);
-      } else {
-        setIsPaused(false);
-      }
+      setIsDocumentHidden(document.hidden);
     };
     document.addEventListener("visibilitychange", handleVisibility);
-    return () => document.removeEventListener("visibilitychange", handleVisibility);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibility);
   }, []);
 
   // Keyboard navigation
@@ -90,7 +104,7 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
         goToNext();
       }
     },
-    [goToPrev, goToNext]
+    [goToPrev, goToNext],
   );
 
   // Swipe handling
@@ -115,14 +129,22 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
       className={`hero ${isPaused || prefersReducedMotion ? "is-paused" : ""}`}
       aria-label="Featured stories"
       aria-roledescription="carousel"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocusCapture={() => setHasFocusWithin(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null))
+          setHasFocusWithin(false);
+      }}
       onKeyDown={handleKeyDown}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
-      style={{ "--hero-interval": `${autoPlayIntervalMs}ms` } as React.CSSProperties}
+      onPointerCancel={() => {
+        touchStartX.current = null;
+      }}
+      style={
+        { "--hero-interval": `${autoPlayIntervalMs}ms` } as React.CSSProperties
+      }
     >
       {/* Background Images with crossfade */}
       <div className="hero-art-layer" aria-hidden="true">
@@ -150,7 +172,7 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
       {/* Main static explore typography */}
       <div className="hero-main">
         <span className="hero-kicker">
-          InkFlow Public Library <span className="tiny-dot" /> Demo edition
+          InkFlow Public Library <span className="tiny-dot" /> English fiction
         </span>
         <h1>EXPLORE</h1>
         <div className="hero-bottom">
@@ -187,12 +209,17 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
         </div>
 
         {/* Screen reader live announcement */}
-        <div className="sr-only" aria-live="polite">
-          Featured story {currentIndex + 1} of {items.length}: {currentItem.story.title}
+        <div
+          className="sr-only"
+          aria-live={isPaused ? "polite" : "off"}
+          aria-atomic="true"
+        >
+          Featured story {currentIndex + 1} of {items.length}:{" "}
+          {currentItem.story.title}
         </div>
 
         {/* Content with stable vertical dimensions */}
-        <div key={currentItem.story.id} className="hero-rail-content animate-fade">
+        <div className="hero-rail-content">
           <h2>{currentItem.story.title}</h2>
           <span className="rail-rule" />
           <p className="hero-story-tagline">
@@ -206,9 +233,14 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
           </Link>
           <Link
             className="button"
-            href={`/stories/${currentItem.story.slug}/chapters/chapter-1`}
+            href={
+              currentItem.firstChapterSlug
+                ? `/stories/${currentItem.story.slug}/chapters/${currentItem.firstChapterSlug}`
+                : `/stories/${currentItem.story.slug}`
+            }
           >
-            Start reading <ArrowUpRight size={17} />
+            {currentItem.firstChapterSlug ? "Start reading" : "View story"}{" "}
+            <ArrowUpRight size={17} />
           </Link>
         </div>
 
@@ -222,16 +254,50 @@ export function HeroSlider({ items, autoPlayIntervalMs = 6000 }: HeroSliderProps
                   type="button"
                   aria-current={idx === currentIndex ? "true" : undefined}
                   aria-label={`Show story ${idx + 1}: ${item.story.title}`}
-                  className={`hero-segment ${idx === currentIndex ? "active" : ""}`}
+                  className={`hero-segment ${
+                    idx === currentIndex
+                      ? "active"
+                      : idx < currentIndex
+                        ? "completed"
+                        : ""
+                  }`}
                   onClick={() => setCurrentIndex(idx)}
                 >
                   <span className="hero-segment-track">
-                    <span className="hero-segment-fill" />
+                    <span
+                      className="hero-segment-fill"
+                      onAnimationEnd={(event) => {
+                        if (
+                          idx === currentIndex &&
+                          event.animationName === "heroFillProgress"
+                        ) {
+                          goToNext();
+                        }
+                      }}
+                    />
                   </span>
                 </button>
               ))}
             </div>
             <div className="hero-arrows">
+              <button
+                type="button"
+                className="hero-arrow-btn"
+                onClick={() => setIsManuallyPaused((paused) => !paused)}
+                aria-label={
+                  isManuallyPaused
+                    ? "Play featured stories"
+                    : "Pause featured stories"
+                }
+                title={
+                  isManuallyPaused
+                    ? "Play featured stories"
+                    : "Pause featured stories"
+                }
+                aria-pressed={isManuallyPaused}
+              >
+                {isManuallyPaused ? <Play size={18} /> : <Pause size={18} />}
+              </button>
               <button
                 type="button"
                 className="hero-arrow-btn"

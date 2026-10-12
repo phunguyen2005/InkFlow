@@ -31,7 +31,9 @@ export function Dialog({
   return (
     <>
       <button
-        className={triggerVariant === "raw" ? className : `icon-button ${className}`}
+        className={
+          triggerVariant === "raw" ? className : `icon-button ${className}`
+        }
         title={title}
         aria-label={title}
         aria-haspopup="dialog"
@@ -61,7 +63,8 @@ export function Dialog({
           </div>
           <div
             onClick={(e) => {
-              if ((e.target as HTMLElement).closest("a, [data-dialog-close]")) setOpen(false);
+              if ((e.target as HTMLElement).closest("a, [data-dialog-close]"))
+                setOpen(false);
             }}
           >
             {children}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "./(public)/library.css";
 import { ArrowLeft } from "lucide-react";
 import { LibraryShell } from "@/features/library/components/navigation/site-header";
 export default function NotFound() {

@@ -11,6 +11,7 @@
   --ink-deep: #070b0d;
   --ink-surface: #131b20;
   --ink-hover: #1d292f;
+  --ink-elevated: #20292d;
   --ink-ivory: #f4efe7;
   --ink-muted: #a5b0b1;
   --ink-subtle: #778287;
@@ -19,6 +20,8 @@
   --ink-coral-pressed: #d65339;
   --ink-flow: #8ccbd0;
   --ink-gold: #d6b56d;
+  --ink-warning: #e0b34d;
+  --ink-error: #e05c5c;
   --reader-sepia-bg: #f4f0e6;
   --reader-sepia-text: #30383a;
   --reader-dark-bg: #18232d;

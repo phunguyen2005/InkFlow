@@ -42,16 +42,15 @@ export function StoryCard({
         </h3>
         <div className="card-caption">
           <span>{story.genreLabel}</span>
-          {story.status === "COMPLETED" ? (
-            <>
-              <span
-                className="completed-dot"
-                title="Completed"
-                aria-hidden="true"
-              />
-              <span className="sr-only">Completed</span>
-            </>
-          ) : null}
+          <span
+            className={`completed-dot ${story.status.toLowerCase()}`}
+            aria-hidden="true"
+          />
+          <span>
+            {story.status === "COMPLETED"
+              ? "Complete"
+              : `${story.chapterCount} chapters`}
+          </span>
         </div>
       </div>
     </article>

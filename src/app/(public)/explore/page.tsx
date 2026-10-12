@@ -4,10 +4,7 @@ import Image from "next/image";
 import { ArrowLeft, ArrowRight, Search, Star } from "lucide-react";
 import { LibraryShell } from "@/features/library/components/navigation/site-header";
 import { ExploreControls } from "@/features/library/components/search/explore-controls";
-import {
-  library,
-  getCatalogFacets,
-} from "@/features/library/data/mock-library.repository";
+import { library, getCatalogFacets } from "@/features/library/data/library";
 import { parseQuery, queryString } from "@/features/library/utils/filters";
 import { dateLabel, label } from "@/features/library/utils/formatting";
 
@@ -47,7 +44,7 @@ export default async function ExplorePage({
             {result.total} {result.total === 1 ? "story" : "stories"}
             {query.q ? ` for "${query.q}"` : " to discover"}
           </span>
-          <span className="eyebrow muted">Demo catalog</span>
+          <span className="eyebrow muted">English-language fiction</span>
         </div>
         {result.items.length ? (
           <div className="results-grid">
@@ -83,7 +80,7 @@ export default async function ExplorePage({
                     <span className="rating">
                       <Star size={12} aria-hidden="true" />
                       {story.rating.average.toFixed(1)}{" "}
-                      <span className="muted">sample</span>
+                      <span className="muted">estimated</span>
                     </span>
                   </div>
                   <time

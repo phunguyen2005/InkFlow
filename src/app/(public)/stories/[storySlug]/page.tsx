@@ -16,16 +16,17 @@ import {
   ShareButton,
   ContinueReading,
 } from "@/features/library/components/story/local-actions";
-import {
-  library,
-  getPublicSlugs,
-} from "@/features/library/data/mock-library.repository";
+import { StoryChapterList } from "@/features/library/components/story/story-chapter-list";
+import { library, getPublicSlugs } from "@/features/library/data/library";
+import { StoryReviews } from "@/features/library/components/story/story-reviews";
 import {
   dateLabel,
   label,
   genreSlug,
   initials,
 } from "@/features/library/utils/formatting";
+import { community } from "@/features/community/data/community";
+import { DiscussionCard } from "@/features/community/components/discussion-card";
 
 type Props = { params: Promise<{ storySlug: string }> };
 export async function generateStaticParams() {
@@ -45,6 +46,7 @@ export default async function StoryPage({ params }: Props) {
     genres: [story.primaryGenre],
     pageSize: 6,
   });
+  const storyDiscussions = await community.getDiscussionsByStory(story.slug);
   return (
     <LibraryShell>
       <main id="main" className="page-width story-page">
@@ -90,34 +92,37 @@ export default async function StoryPage({ params }: Props) {
               <span>
                 <Star size={17} className="gold" aria-hidden="true" />
                 <strong>{story.rating.average.toFixed(1)}</strong>
-                <span>{story.rating.count} sample ratings</span>
+                <span>{story.rating.count} estimated ratings</span>
               </span>
               <span>
                 <BookOpen size={17} />
-                <strong>{story.chapterCount}</strong>
-                <span>catalog chapters</span>
+                <strong>{story.chapters.length}</strong>
+                <span>available chapters</span>
               </span>
               <span className="detail-language">English</span>
             </div>
             <div className="detail-reading-actions">
+              <ContinueReading
+                storyId={story.id}
+                slug={story.slug}
+                chapterSlugs={story.chapters.map((chapter) => chapter.slug)}
+                chapters={story.chapters}
+              />
               <Link
-                className="button"
+                className="button button-outline"
                 href={`/stories/${story.slug}/chapters/chapter-1`}
               >
                 <BookOpen size={17} />
                 Start reading
                 <ArrowRight size={17} />
               </Link>
-              <ContinueReading storyId={story.id} slug={story.slug} />
             </div>
             <div className="detail-secondary">
               <SaveButton storyId={story.id} />
               <SaveButton storyId={story.id} follow />
               <ShareButton />
             </div>
-            <p className="fine-print">
-              Fictional demo story. Saves and follows stay on this device.
-            </p>
+            <p className="fine-print">Saves and follows stay on this device.</p>
           </div>
         </section>
         <div className="story-body-grid">
@@ -125,35 +130,15 @@ export default async function StoryPage({ params }: Props) {
             <div className="section-line">
               <h2>Table of contents</h2>
               <span className="muted">
-                {story.chapters.length} reading samples
+                {story.chapters.length} available chapters
               </span>
             </div>
-            <p className="muted chapter-note">
-              {story.chapterCount} chapters in the fictional catalog. The first{" "}
-              {story.chapters.length} are available as original demo samples.
-            </p>
-            <ol className="chapter-list">
-              {story.chapters.map((c) => (
-                <li key={c.id}>
-                  <Link href={`/stories/${story.slug}/chapters/${c.slug}`}>
-                    <span className="chapter-number">
-                      {String(c.number).padStart(2, "0")}
-                    </span>
-                    <div>
-                      <h3>{c.title}</h3>
-                      <span>
-                        {c.estimatedMinutes} min read{" "}
-                        <span className="list-divider">/</span>{" "}
-                        <time dateTime={c.publishedAt}>
-                          {dateLabel(c.publishedAt)}
-                        </time>
-                      </span>
-                    </div>
-                    <ArrowUpRight size={19} />
-                  </Link>
-                </li>
-              ))}
-            </ol>
+            <p className="muted chapter-note">Read every chapter currently published in the Library.</p>
+            <StoryChapterList
+              storyId={story.id}
+              storySlug={story.slug}
+              chapters={story.chapters}
+            />
           </section>
           <aside className="story-aside">
             <h2>Between the lines</h2>
@@ -178,15 +163,34 @@ export default async function StoryPage({ params }: Props) {
               <dt>Writing provenance</dt>
               <dd>Unspecified</dd>
             </dl>
-            <div className="reviews-note">
-              <h3>Reader reviews</h3>
-              <p>Reviews are coming soon.</p>
-              <span className="fine-print">
-                Ratings above are sample values.
-              </span>
-            </div>
+            <StoryReviews storyId={story.id} baselineAverage={story.rating.average} baselineCount={story.rating.count} />
           </aside>
         </div>
+        <section className="story-discussions-section">
+          <div className="story-discussions-header">
+            <h2>Conversations</h2>
+            <Link
+              href={`/community?story=${story.slug}`}
+              className="text-link"
+            >
+              View all <ArrowUpRight size={14} aria-hidden="true" />
+            </Link>
+          </div>
+          <p className="story-discussions-note">
+            Join readers discussing this story.
+          </p>
+          {storyDiscussions.length > 0 ? (
+            <div className="story-discussions-list">
+              {storyDiscussions.slice(0, 3).map((d) => (
+                <DiscussionCard key={d.id} discussion={d} compact />
+              ))}
+            </div>
+          ) : (
+            <p className="story-discussions-empty">
+              No community conversations yet for this story.
+            </p>
+          )}
+        </section>
         <StoryShelf
           title="Another world awaits"
           stories={related.items.filter((s) => s.id !== story.id)}

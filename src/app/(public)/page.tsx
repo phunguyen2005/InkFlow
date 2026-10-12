@@ -3,58 +3,107 @@ import Link from "next/link";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { LibraryShell } from "@/features/library/components/navigation/site-header";
 import { StoryShelf } from "@/features/library/components/discovery/story-shelf";
-import { library } from "@/features/library/data/mock-library.repository";
+import { library } from "@/features/library/data/library";
 import { GENRES } from "@/features/library/types/library";
 import { genreSlug } from "@/features/library/utils/formatting";
+import type { StoryDetail } from "@/features/library/types/library";
+import { PersonalLibraryStrip } from "@/features/library/components/discovery/personal-library-strip";
 
-import { HeroSlider, type FeaturedStoryItem } from "@/features/library/components/discovery/hero-slider";
+import {
+  HeroSlider,
+  type FeaturedStoryItem,
+} from "@/features/library/components/discovery/hero-slider";
+
+function featuredItem(
+  story: StoryDetail,
+  heroImage: string,
+  tagline: string,
+): FeaturedStoryItem {
+  return {
+    story: {
+      id: story.id,
+      slug: story.slug,
+      title: story.title,
+      coverUrl: story.coverUrl,
+      coverAlt: story.coverAlt,
+      synopsisShort: story.synopsisShort,
+    },
+    firstChapterSlug: story.chapters[0]?.slug ?? null,
+    heroImage,
+    tagline,
+  };
+}
 
 export default async function HomePage() {
-  const [featuredStory, quietMachine, mapMoonlight, lanternRow, trending, latest, completed] = await Promise.all([
+  const [
+    featuredStory,
+    quietMachine,
+    mapMoonlight,
+    lanternRow,
+    trending,
+    latest,
+    completed,
+    allStories,
+  ] = await Promise.all([
     library.getStoryBySlug("the-blood-orchard"),
     library.getStoryBySlug("the-quiet-machine-at-dawn"),
     library.getStoryBySlug("a-map-for-moonlight"),
     library.getStoryBySlug("the-lanterns-of-briar-row"),
-    library.listStories({ sort: "trending", pageSize: 6 }),
-    library.listStories({ sort: "latest", pageSize: 6 }),
+    library.listStories({ sort: "trending", pageSize: 24 }),
+    library.listStories({ sort: "latest", pageSize: 24 }),
     library.listStories({ status: ["COMPLETED"], sort: "rating", pageSize: 6 }),
+    library.listStories({ pageSize: 24 }),
   ]);
+
+  const completedIds = new Set(completed.items.map((story) => story.id));
+  const trendingStories = trending.items
+    .filter((story) => !completedIds.has(story.id))
+    .slice(0, 6);
+  const usedIds = new Set([
+    ...completedIds,
+    ...trendingStories.map((story) => story.id),
+  ]);
+  const freshStories = latest.items
+    .filter((story) => !usedIds.has(story.id))
+    .slice(0, 5);
+  const newReleaseLead = freshStories[0];
+  const newReleaseList = freshStories.slice(1);
 
   const featuredItems: FeaturedStoryItem[] = [
     ...(featuredStory
       ? [
-          {
-            story: featuredStory,
-            heroImage: "/mock/heroes/blood-orchard.webp",
-            tagline: "A name erased. An orchard that remembers.",
-          },
+          featuredItem(
+            featuredStory,
+            "/mock/heroes/blood-orchard.webp",
+            "A name erased. An orchard that remembers.",
+          ),
         ]
       : []),
     ...(quietMachine
       ? [
-          {
-            story: quietMachine,
-            heroImage: "/mock/heroes/the-quiet-machine-at-dawn.webp",
-            tagline: "A silent machine drifting beyond the mapped moons.",
-          },
+          featuredItem(
+            quietMachine,
+            "/mock/heroes/the-quiet-machine-at-dawn.webp",
+            "A silent machine drifting beyond the mapped moons.",
+          ),
         ]
       : []),
     ...(mapMoonlight
       ? [
-          {
-            story: mapMoonlight,
-            heroImage: "/mock/heroes/a-map-for-moonlight.webp",
-            tagline: "A cartographer who draws dreams. A prince who never sleeps.",
-          },
+          featuredItem(
+            mapMoonlight,
+            "/mock/heroes/a-map-for-moonlight.webp",
+            "A cartographer who draws dreams. A prince who never sleeps.",
+          ),
         ]
       : []),
     ...(lanternRow
       ? [
-          {
-            story: lanternRow,
-            heroImage: "/mock/heroes/the-lanterns-of-briar-row.webp",
-            tagline: "A botanical haven whose flowers bloom only for secrets.",
-          },
+          featuredItem(
+            lanternRow,
+            "/mock/heroes/the-lanterns-of-briar-row.webp",
+            "A botanical haven whose flowers bloom only for secrets.",
+          ),
         ]
       : []),
   ];
@@ -81,19 +130,71 @@ export default async function HomePage() {
             <ArrowRight size={20} />
           </Link>
         </nav>
+        <PersonalLibraryStrip stories={allStories.items} />
         <StoryShelf
           title="Trending now"
           eyebrow="Find your next obsession"
-          stories={trending.items}
+          stories={trendingStories.length ? trendingStories : trending.items}
           href="/explore?sort=trending"
           ranked
         />
-        <StoryShelf
-          title="Fresh ink"
-          eyebrow="The story continues"
-          stories={latest.items}
-          href="/explore?sort=latest"
-        />
+        {newReleaseLead ? (
+          <section className="new-releases-section">
+            <div className="section-line">
+              <div>
+                <span className="eyebrow muted">The story continues</span>
+                <h2 className="display-heading">New releases</h2>
+              </div>
+              <Link className="text-link" href="/explore?sort=latest">
+                Fresh ink <ArrowUpRight size={18} />
+              </Link>
+            </div>
+            <div className="release-layout">
+              <Link
+                className="release-lead"
+                href={`/stories/${newReleaseLead.slug}`}
+              >
+                <Image
+                  src={newReleaseLead.coverUrl}
+                  alt={newReleaseLead.coverAlt}
+                  fill
+                  sizes="(max-width: 760px) 100vw, 50vw"
+                />
+                <div>
+                  <span className="eyebrow">Newest arrival</span>
+                  <h3>{newReleaseLead.title}</h3>
+                  <p>{newReleaseLead.synopsisShort}</p>
+                  <span>
+                    {newReleaseLead.genreLabel} ·{" "}
+                    {newReleaseLead.status === "COMPLETED"
+                      ? "Complete"
+                      : "Ongoing"}
+                  </span>
+                </div>
+              </Link>
+              <div className="release-list">
+                {newReleaseList.map((story) => (
+                  <Link key={story.id} href={`/stories/${story.slug}`}>
+                    <Image
+                      src={story.coverUrl}
+                      alt=""
+                      width={76}
+                      height={104}
+                    />
+                    <div>
+                      <span className="eyebrow muted">{story.genreLabel}</span>
+                      <h3>{story.title}</h3>
+                      <p>
+                        {story.author.penName} · {story.chapterCount} chapters
+                      </p>
+                    </div>
+                    <ArrowUpRight size={17} />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
         <section className="beyond-section">
           <div className="section-line">
             <div>
@@ -151,12 +252,101 @@ export default async function HomePage() {
           stories={completed.items}
           href="/explore?status=completed"
         />
-        <section className="studio-band">
-          <span className="eyebrow">Every world starts with a word.</span>
-          <p>Your story starts here.</p>
-          <span>
-            InkFlow Studio <span className="muted">/ Coming soon</span>
-          </span>
+        <section className="mood-section">
+          <div className="section-line">
+            <div>
+              <span className="eyebrow muted">
+                Discover something different
+              </span>
+              <h2 className="display-heading">What are you in the mood for?</h2>
+              <p>Every great story begins with a feeling.</p>
+            </div>
+          </div>
+          <div className="mood-grid">
+            {[
+              {
+                title: "Dark & Mysterious",
+                meta: "Secrets · Gothic · Suspense",
+                slug: "the-house-beneath-the-stairs",
+                query: "genre=horror&trope=haunted-house",
+              },
+              {
+                title: "Cozy & Magical",
+                meta: "Found family · Wholesome",
+                slug: "the-lanterns-of-briar-row",
+                query: "genre=slice-of-life&trope=botanical-magic",
+              },
+              {
+                title: "Epic & Adventurous",
+                meta: "Quests · Progression · LitRPG",
+                slug: "the-crownless-tournament",
+                query: "genre=litrpg&trope=tournament",
+              },
+              {
+                title: "Twisted & Unpredictable",
+                meta: "Thrillers · Plot twists",
+                slug: "black-signal",
+                query: "genre=thriller&trope=conspiracy",
+              },
+            ].map((mood) => (
+              <Link
+                key={mood.title}
+                href={`/explore?${mood.query}`}
+                className="mood-card"
+              >
+                <Image
+                  src={`/mock/covers/${mood.slug}.webp`}
+                  alt=""
+                  fill
+                  sizes="(max-width: 760px) 90vw, 25vw"
+                />
+                <div>
+                  <h3>{mood.title}</h3>
+                  <p>{mood.meta}</p>
+                  <ArrowUpRight size={19} />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+        {featuredStory ? (
+          <section className="spotlight-section">
+            <Image
+              src="/mock/heroes/blood-orchard.webp"
+              alt="The Blood Orchard story world"
+              fill
+              sizes="100vw"
+            />
+            <div className="spotlight-copy">
+              <span className="eyebrow">
+                Beyond the cover · Story spotlight 01
+              </span>
+              <h2>Some stories refuse to be forgotten.</h2>
+              <p>
+                Enter a world of vanished names, impossible promises, and an
+                orchard that remembers everything.
+              </p>
+              <Link className="button" href={`/stories/${featuredStory.slug}`}>
+                Explore The Blood Orchard <ArrowRight size={17} />
+              </Link>
+            </div>
+          </section>
+        ) : null}
+        <section className="studio-band studio-cta">
+          <div>
+            <span className="eyebrow coral">For the storytellers</span>
+            <h2>Every world starts with a word.</h2>
+            <p>
+              A quieter place to write, build worlds, and keep your story
+              connected, from the first chapter to the last.
+            </p>
+          </div>
+          <div>
+            <Link className="button" href="/studio">
+              Explore InkFlow Studio <ArrowRight size={17} />
+            </Link>
+            <span>Writing · Worldbuilding · Continuity</span>
+          </div>
         </section>
       </main>
     </LibraryShell>

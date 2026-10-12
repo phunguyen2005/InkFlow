@@ -1,28 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
-import { Bookmark, Check, Heart, Share2, ArrowRight } from "lucide-react";
-import {
-  readStorage,
-  writeStorage,
-  parseBookmark,
-} from "../../utils/reader-storage";
+import { useState } from "react";
+import { useLocalValue } from "../../hooks/use-local-value";
+import { Bookmark, Check, Heart, Share2, ArrowRight, BookOpen } from "lucide-react";
+import { writeStorage, parseBookmark } from "../../utils/reader-storage";
+import { useAccount } from "@/features/account/account-provider";
+import type { ChapterSummary } from "../../types/library";
 
-function subscribe(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener("inkflow-storage", callback);
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener("inkflow-storage", callback);
-  };
-}
-function useLocalValue(key: string) {
-  return useSyncExternalStore(
-    subscribe,
-    () => readStorage(key),
-    () => null,
-  );
-}
 export function SaveButton({
   storyId,
   compact = false,
@@ -33,7 +17,10 @@ export function SaveButton({
   follow?: boolean;
 }) {
   const key = `inkflow:${follow ? "follow" : "saved"}:v1:${storyId}`;
-  const stored = useLocalValue(key) === "true";
+  const { ready, state, toggle } = useAccount();
+  const collection = follow ? "followedStoryIds" : "savedStoryIds";
+  const legacyStored = useLocalValue(key) === "true";
+  const stored = ready ? state[collection].includes(storyId) : legacyStored;
   const [local, setLocal] = useState<boolean | null>(null);
   const [message, setMessage] = useState("");
   const selected = local ?? stored;
@@ -55,6 +42,9 @@ export function SaveButton({
         onClick={() => {
           const next = !selected;
           const saved = writeStorage(key, String(next));
+          if (state[collection].includes(storyId) !== next) {
+            toggle(collection, storyId);
+          }
           setLocal(saved ? null : next);
           setMessage(
             saved
@@ -109,21 +99,42 @@ export function ShareButton() {
     </span>
   );
 }
+
 export function ContinueReading({
   storyId,
   slug,
+  chapterSlugs,
+  chapters,
 }: {
   storyId: string;
   slug: string;
+  chapterSlugs?: string[];
+  chapters?: ChapterSummary[];
 }) {
   const raw = useLocalValue(`inkflow:progress:v1:${storyId}`);
   const mark = parseBookmark(raw);
-  return mark ? (
-    <Link
-      className="text-link continue-link"
-      href={`/stories/${slug}/chapters/${mark.chapterSlug}?resume=1`}
-    >
-      Continue reading <ArrowRight size={18} />
-    </Link>
-  ) : null;
+  const validSlugs = chapterSlugs ?? chapters?.map((c) => c.slug) ?? [];
+  if (!mark || !validSlugs.includes(mark.chapterSlug)) return null;
+
+  const currentChapter = chapters?.find((c) => c.slug === mark.chapterSlug);
+  const chapterDisplay = currentChapter
+    ? `Chapter ${String(currentChapter.number).padStart(2, "0")} · ${currentChapter.title}`
+    : `Chapter ${mark.chapterSlug.replace(/^chapter-/, "")}`;
+
+  return (
+    <div className="resume-panel" role="region" aria-label="Reading progress">
+      <div className="resume-panel-copy">
+        <span className="eyebrow coral">Continue where you left off</span>
+        <strong className="resume-chapter-name">{chapterDisplay}</strong>
+      </div>
+      <Link
+        className="button button-resume"
+        href={`/stories/${slug}/chapters/${mark.chapterSlug}?resume=1`}
+      >
+        <BookOpen size={17} aria-hidden="true" />
+        Continue reading
+        <ArrowRight size={17} />
+      </Link>
+    </div>
+  );
 }

@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   useEffect,
   useMemo,
   useRef,
   useState,
-  useSyncExternalStore,
   type CSSProperties,
   type ReactNode,
 } from "react";
@@ -13,6 +13,7 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
+  Check,
   List,
   Settings2,
   Minus,
@@ -21,24 +22,17 @@ import {
 } from "lucide-react";
 import { Dialog } from "@/components/ui/dialog";
 import type { ChapterSummary } from "../../types/library";
+import { useLocalValue } from "../../hooks/use-local-value";
+import { useReadingProgress } from "../../hooks/use-reading-progress";
+import { useAccount } from "@/features/account/account-provider";
 import {
   READER_KEY,
   defaultPreferences,
   parsePreferences,
-  readStorage,
   writeStorage,
-  parseBookmark,
   type ReaderPreferences,
 } from "../../utils/reader-storage";
 
-function subscribe(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener("inkflow-storage", callback);
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener("inkflow-storage", callback);
-  };
-}
 export function ReaderShell({
   children,
   story,
@@ -56,17 +50,25 @@ export function ReaderShell({
   next: string | null;
   resume: boolean;
 }) {
-  const raw = useSyncExternalStore(
-    subscribe,
-    () => readStorage(READER_KEY),
-    () => null,
+  const router = useRouter();
+  const { state } = useAccount();
+  const completedSlugs = useMemo(
+    () => new Set(state.progress[story.id]?.completedChapterSlugs ?? []),
+    [state.progress, story.id],
   );
+  const raw = useLocalValue(READER_KEY);
   const persisted = useMemo(() => parsePreferences(raw), [raw]);
   const [temporary, setTemporary] = useState<ReaderPreferences | null>(null);
   const [storageMessage, setStorageMessage] = useState("");
   const preferences = temporary ?? persisted;
-  const [progress, setProgress] = useState(0);
   const body = useRef<HTMLDivElement>(null);
+  const progress = useReadingProgress(
+    body,
+    story.id,
+    chapter.slug,
+    resume,
+    chapter.id,
+  );
   function update(changes: Partial<ReaderPreferences>) {
     const value = { ...preferences, ...changes };
     if (writeStorage(READER_KEY, JSON.stringify(value))) {
@@ -79,73 +81,31 @@ export function ReaderShell({
       );
     }
   }
-  useEffect(() => {
-    let active = true;
-    let frame = 0;
-    let saveTimer: ReturnType<typeof setTimeout>;
-    let observer: ResizeObserver | undefined;
-    const key = `inkflow:progress:v1:${story.id}`;
-    function measure() {
-      const element = body.current;
-      if (!element) return;
-      const rect = element.getBoundingClientRect();
-      const viewport = window.innerHeight - 90;
-      const travel = Math.max(0, rect.height - viewport);
-      const amount =
-        travel > 0
-          ? Math.round(Math.min(1, Math.max(0, (90 - rect.top) / travel)) * 100)
-          : rect.bottom <= window.innerHeight
-            ? 100
-            : 0;
-      setProgress(amount);
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => {
-        const paragraphs = [
-          ...element.querySelectorAll<HTMLElement>("[data-paragraph]"),
-        ];
-        const index = paragraphs.findLastIndex(
-          (p) => p.getBoundingClientRect().top <= 120,
-        );
-        writeStorage(
-          key,
-          JSON.stringify({
-            chapterSlug: chapter.slug,
-            paragraph: Math.max(0, index),
-          }),
-        );
-      }, 350);
-    }
-    function queue() {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(measure);
-    }
-    async function initialize() {
-      await document.fonts.ready;
-      if (!active) return;
-      if (resume) {
-        const mark = parseBookmark(readStorage(key));
-        if (mark?.chapterSlug === chapter.slug)
-          body.current
-            ?.querySelector(`[data-paragraph="${mark.paragraph}"]`)
-            ?.scrollIntoView({ block: "start" });
-      }
-      queue();
-      window.addEventListener("scroll", queue, { passive: true });
-      window.addEventListener("resize", queue);
-      observer = new ResizeObserver(queue);
-      if (body.current) observer.observe(body.current);
-    }
-    void initialize();
-    return () => {
-      active = false;
-      cancelAnimationFrame(frame);
-      clearTimeout(saveTimer);
-      observer?.disconnect();
-      window.removeEventListener("scroll", queue);
-      window.removeEventListener("resize", queue);
-    };
-  }, [chapter.slug, story.id, resume]);
   const route = (slug: string) => `/stories/${story.slug}/chapters/${slug}`;
+  useEffect(() => {
+    function shortcuts(event: KeyboardEvent) {
+      if (
+        event.defaultPrevented ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.altKey ||
+        event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLTextAreaElement ||
+        event.target instanceof HTMLSelectElement
+      )
+        return;
+      if (event.key === "ArrowLeft" && previous)
+        router.push(`/stories/${story.slug}/chapters/${previous}`);
+      if (event.key === "ArrowRight" && next)
+        router.push(`/stories/${story.slug}/chapters/${next}`);
+      if (event.key.toLowerCase() === "f") {
+        if (document.fullscreenElement) void document.exitFullscreen();
+        else void document.documentElement.requestFullscreen?.();
+      }
+    }
+    window.addEventListener("keydown", shortcuts);
+    return () => window.removeEventListener("keydown", shortcuts);
+  }, [next, previous, router, story.slug]);
   const style = {
     "--reader-size": `${preferences.size}px`,
     "--reader-line": preferences.lineHeight,
@@ -165,26 +125,44 @@ export function ReaderShell({
           InkFlow<span>.</span>
         </Link>
         <div className="reader-tools">
-          <span className="reader-percent">
-            {progress}%<span className="sr-only"> read</span>
-          </span>
+          {preferences.showProgress ? (
+            <span className="reader-percent">
+              {progress}%<span className="sr-only"> read</span>
+            </span>
+          ) : null}
           <Dialog title="Table of contents" trigger={<List size={21} />}>
             <nav className="reader-toc" aria-label="Chapters">
-              {chapters.map((c) => (
-                <Link
-                  key={c.id}
-                  href={route(c.slug)}
-                  aria-current={c.slug === chapter.slug ? "page" : undefined}
-                >
-                  <span>{String(c.number).padStart(2, "0")}</span>
-                  <div>
-                    {c.title}
-                    <small>{c.estimatedMinutes} min read</small>
-                  </div>
-                </Link>
-              ))}
+              {chapters.map((c) => {
+                const isCurrent = c.slug === chapter.slug;
+                const isCompleted = completedSlugs.has(c.slug);
+                return (
+                  <Link
+                    key={c.id}
+                    href={route(c.slug)}
+                    aria-current={isCurrent ? "page" : undefined}
+                    className={`reader-toc-item ${isCurrent ? "is-current" : ""} ${isCompleted ? "is-completed" : ""}`}
+                  >
+                    <span className="toc-number">
+                      {String(c.number).padStart(2, "0")}
+                    </span>
+                    <div className="toc-info">
+                      <span className="toc-title">{c.title}</span>
+                      <div className="toc-meta">
+                        <small>{c.estimatedMinutes} min read</small>
+                        {isCurrent ? (
+                          <span className="toc-badge is-reading">Reading</span>
+                        ) : isCompleted ? (
+                          <span className="toc-badge is-completed">
+                            <Check size={11} aria-hidden="true" /> Completed
+                          </span>
+                        ) : null}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </nav>
-            <p className="fine-print">Original demo reading samples</p>
+            <p className="fine-print">All currently available chapters</p>
           </Dialog>
           <Dialog title="Reading appearance" trigger={<Settings2 size={20} />}>
             <div className="reader-settings">
@@ -196,7 +174,7 @@ export function ReaderShell({
                       <input
                         type="radio"
                         name="reader-theme"
-                      aria-label={theme[0].toUpperCase() + theme.slice(1)}
+                        aria-label={theme[0].toUpperCase() + theme.slice(1)}
                         value={theme}
                         checked={preferences.theme === theme}
                         onChange={() => update({ theme })}
@@ -273,6 +251,24 @@ export function ReaderShell({
                   onChange={(e) => update({ width: Number(e.target.value) })}
                 />
               </label>
+              <div className="setting-row setting-toggle-row">
+                <div className="setting-toggle-info">
+                  <span>Show reading progress</span>
+                  <small className="fine-print">
+                    Subtle indicator and percentage while reading
+                  </small>
+                </div>
+                <label className="toggle-switch">
+                  <input
+                    type="checkbox"
+                    role="switch"
+                    aria-label="Show reading progress"
+                    checked={preferences.showProgress}
+                    onChange={(e) => update({ showProgress: e.target.checked })}
+                  />
+                  <span className="toggle-slider" aria-hidden="true" />
+                </label>
+              </div>
               <button
                 className="text-link"
                 onClick={() => update(defaultPreferences)}
@@ -286,16 +282,18 @@ export function ReaderShell({
             </div>
           </Dialog>
         </div>
-        <div
-          className="reader-progress"
-          role="progressbar"
-          aria-label="Chapter reading progress"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={progress}
-        >
-          <span style={{ width: `${progress}%` }} />
-        </div>
+        {preferences.showProgress ? (
+          <div
+            className="reader-progress"
+            role="progressbar"
+            aria-label="Chapter reading progress"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={progress}
+          >
+            <span style={{ width: `${progress}%` }} />
+          </div>
+        ) : null}
       </header>
       <main id="main" className="reader-main">
         <div className="reader-chapter-heading">
@@ -307,8 +305,7 @@ export function ReaderShell({
           </span>
           <h1>{chapter.title}</h1>
           <p>
-            {chapter.estimatedMinutes} min read <span>/</span> Original reading
-            sample
+            {chapter.estimatedMinutes} min read <span>/</span> English
           </p>
           <div className="reader-ornament" aria-hidden="true">
             * &nbsp; * &nbsp; *
@@ -333,7 +330,11 @@ export function ReaderShell({
             </button>
           )}
           {next ? (
-            <Link className="button" href={route(next)}>
+            <Link
+              className="button"
+              href={route(next)}
+              data-complete-chapter="true"
+            >
               Next chapter
               <ArrowRight size={17} />
             </Link>
@@ -346,8 +347,8 @@ export function ReaderShell({
         </nav>
         <p className="reader-end-note">
           {next
-            ? `Chapter ${chapter.number} of ${chapters.length} samples`
-            : "You've reached the end of the available samples."}
+            ? `Chapter ${chapter.number} of ${chapters.length}`
+            : "You've reached the end of the available chapters."}
         </p>
       </main>
     </div>

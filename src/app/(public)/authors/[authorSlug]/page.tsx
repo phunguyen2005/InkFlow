@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin, Globe2 } from "lucide-react";
 import { LibraryShell } from "@/features/library/components/navigation/site-header";
 import { StoryCard } from "@/features/library/components/discovery/story-card";
-import {
-  library,
-  getPublicSlugs,
-} from "@/features/library/data/mock-library.repository";
+import { library, getPublicSlugs } from "@/features/library/data/library";
 import { initials, genreSlug } from "@/features/library/utils/formatting";
+import { AuthorFollowButton } from "@/features/account/author-follow-button";
 
 type Props = { params: Promise<{ authorSlug: string }> };
 export async function generateStaticParams() {
@@ -29,12 +28,8 @@ export default async function AuthorPage({ params }: Props) {
           Explore stories
         </Link>
         <section className="author-hero">
-          <span
-            className="avatar avatar-large"
-            role="img"
-            aria-label={`${author.penName} initials`}
-          >
-            {initials(author.penName)}
+          <span className="avatar avatar-large author-art" role="img" aria-label={`Profile artwork for ${author.penName}`}>
+            {author.works[0] ? <Image src={author.works[0].coverUrl} alt="" fill sizes="160px" /> : initials(author.penName)}
           </span>
           <div className="author-intro">
             <span className="eyebrow coral">The voice behind the story</span>
@@ -50,6 +45,7 @@ export default async function AuthorPage({ params }: Props) {
                 {author.language}
               </span>
             </div>
+            <AuthorFollowButton authorId={author.id} />
           </div>
           <div className="author-count">
             <strong>
@@ -59,7 +55,7 @@ export default async function AuthorPage({ params }: Props) {
               {author.publishedWorksCount === 1 ? "work" : "works"} in this
               catalog
             </span>
-            <span className="fine-print">Fictional author profile</span>
+            <span>{author.publicChapterCount} chapters available</span>
           </div>
         </section>
         <section className="author-works">

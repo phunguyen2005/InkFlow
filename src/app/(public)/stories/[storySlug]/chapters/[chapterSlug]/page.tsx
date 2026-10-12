@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { library } from "@/features/library/data/mock-library.repository";
+import { library } from "@/features/library/data/library";
 import { ReaderShell } from "@/features/library/components/reader/reader-shell";
 
 type Props = {
@@ -31,7 +31,12 @@ export default async function ChapterPage({ params, searchParams }: Props) {
       resume={query.resume === "1"}
     >
       {chapter.bodyMarkdown.split(/\n\n+/).map((paragraph, i) => (
-        <div key={i} id={`paragraph-${i}`} data-paragraph={i}>
+        <div
+          key={i}
+          id={`paragraph-${i}`}
+          data-paragraph={i}
+          data-block-id={`block-${chapter.id}-${i}`}
+        >
           <ReactMarkdown skipHtml>{paragraph}</ReactMarkdown>
         </div>
       ))}
