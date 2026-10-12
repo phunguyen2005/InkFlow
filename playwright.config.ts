@@ -10,7 +10,13 @@ export default defineConfig({
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000",
     channel: process.env.PLAYWRIGHT_CHANNEL,
     viewport: { width: 1440, height: 1000 },
-    trace: "retain-on-failure",
+    trace: "off",
+  },
+  webServer: {
+    command: "npm.cmd run start",
+    url: "http://127.0.0.1:3000",
+    reuseExistingServer: true,
+    timeout: 120000,
   },
   reporter: [["list"], ["html", { open: "never" }]],
 });
