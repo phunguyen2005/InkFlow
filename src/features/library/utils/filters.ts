@@ -40,24 +40,27 @@ export function queryString(query: StoryQueryParams): string {
   if (query.page && query.page > 1) p.set("page", String(query.page));
   return p.toString();
 }
+export function normalizeSearchText(value: string): string {
+  return value.toLowerCase().replaceAll("-", " ").trim();
+}
 export function filterStories(
   stories: readonly StorySummary[],
   query: StoryQueryParams,
 ): StoryListResult {
-  const tokens =
-    query.q?.toLowerCase().trim().split(/\s+/).filter(Boolean) ?? [];
+  const tokens = normalizeSearchText(query.q ?? "")
+    .split(/\s+/)
+    .filter(Boolean);
   const filtered = stories.filter((story) => {
-    const search = [
-      story.title,
-      story.author.penName,
-      story.synopsisShort,
-      ...story.genres,
-      ...story.tropes,
-      ...story.tags,
-    ]
-      .join(" ")
-      .replaceAll("-", " ")
-      .toLowerCase();
+    const search = normalizeSearchText(
+      [
+        story.title,
+        story.author.penName,
+        story.synopsisShort,
+        ...story.genres,
+        ...story.tropes,
+        ...story.tags,
+      ].join(" "),
+    );
     return (
       tokens.every((token) => search.includes(token)) &&
       (!query.genres?.length ||

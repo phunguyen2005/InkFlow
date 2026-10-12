@@ -1,4 +1,5 @@
 import source from "./content-source.json";
+import genreTaxonomy from "./taxonomy.json";
 import type {
   PrimaryGenre,
   StorySummary,
@@ -7,30 +8,7 @@ import type {
 import { coverAsset } from "../data/assets";
 import { label } from "../utils/formatting";
 
-const taxonomy: Record<string, PrimaryGenre> = {
-  "dark-fantasy": "Fantasy",
-  "science-fiction": "Sci-Fi",
-  "romantic-fantasy": "Romance",
-  horror: "Horror",
-  mystery: "Mystery",
-  "progression-fantasy": "LitRPG",
-  "adventure-fantasy": "Fantasy",
-  "political-fantasy": "Fantasy",
-  "cozy-fantasy": "Slice of Life",
-  thriller: "Thriller",
-  litrpg: "LitRPG",
-  "supernatural-romance": "Romance",
-  "science-fantasy": "Sci-Fi",
-  "action-fantasy": "Fantasy",
-  "supernatural-mystery": "Mystery",
-  "literary-fantasy": "Contemporary",
-  "survival-fantasy": "Fantasy",
-  "contemporary-fantasy": "Contemporary",
-  "historical-fantasy": "Fantasy",
-  romance: "Romance",
-  contemporary: "Contemporary",
-  "high-fantasy": "Fantasy",
-};
+const taxonomy = genreTaxonomy as Record<string, PrimaryGenre>;
 export const authorSeeds = source.authors;
 export const authors: AuthorSummary[] = source.authors.map((a) => ({
   id: a.id,
@@ -41,7 +19,16 @@ export const authors: AuthorSummary[] = source.authors.map((a) => ({
 export const catalog: StorySummary[] = source.stories.map((s) => {
   const author = authors.find((a) => a.id === s.authorId);
   if (!author) throw new Error(`Missing author for ${s.id}`);
-  const primaryGenre = taxonomy[s.primaryGenre] ?? "Fantasy";
+  const primaryGenre = taxonomy[s.primaryGenre];
+  if (!primaryGenre)
+    throw new Error(`Unknown primary genre for ${s.id}: ${s.primaryGenre}`);
+  const statuses = {
+    completed: "COMPLETED",
+    hiatus: "HIATUS",
+    ongoing: "ONGOING",
+  } as const;
+  const status = statuses[s.status as keyof typeof statuses];
+  if (!status) throw new Error(`Unknown status for ${s.id}: ${s.status}`);
   return {
     id: s.id,
     slug: s.slug,
@@ -61,12 +48,7 @@ export const catalog: StorySummary[] = source.stories.map((s) => {
     tropes: s.tropes,
     tags: s.secondaryGenres,
     mood: s.mood,
-    status:
-      s.status === "completed"
-        ? "COMPLETED"
-        : s.status === "hiatus"
-          ? "HIATUS"
-          : "ONGOING",
+    status,
     provenance: "UNSPECIFIED",
     synopsisShort: s.synopsis,
     chapterCount: s.chapterCount,

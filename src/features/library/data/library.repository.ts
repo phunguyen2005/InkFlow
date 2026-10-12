@@ -7,6 +7,8 @@ import type {
 } from "../types/library";
 
 export interface LibraryRepository {
+  getCatalogFacets(): Promise<{ tropes: string[] }>;
+  getPublicSlugs(): Promise<{ stories: string[]; authors: string[] }>;
   listStories(query: StoryQueryParams): Promise<StoryListResult>;
   getStoryBySlug(slug: string): Promise<StoryDetail | null>;
   getChapterBySlug(

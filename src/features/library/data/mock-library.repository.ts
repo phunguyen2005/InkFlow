@@ -29,6 +29,11 @@ function chapterSummaries(slug: string): ChapterSummary[] {
   }));
 }
 export const library: LibraryRepository = {
+  getCatalogFacets: async () => ({ tropes: allTropes }),
+  getPublicSlugs: async () => ({
+    stories: catalog.map((story) => story.slug),
+    authors: authors.map((author) => author.slug),
+  }),
   listStories: async (query) => filterStories(catalog, query),
   getStoryBySlug: cache(async (slug) => {
     const story = catalog.find((s) => s.slug === slug);
@@ -70,18 +75,12 @@ export const library: LibraryRepository = {
       language: seed.language,
       declaredWorkCount: seed.declaredWorkCount,
       publishedWorksCount: works.length,
-      publicChapterCount: works.reduce((sum, s) => sum + s.chapterCount, 0),
+      publicChapterCount: works.reduce(
+        (sum, story) => sum + chapterSummaries(story.slug).length,
+        0,
+      ),
       primaryGenres: [...new Set(works.map((s) => s.primaryGenre))],
       works,
     };
   }),
 };
-export async function getCatalogFacets() {
-  return { tropes: allTropes };
-}
-export async function getPublicSlugs() {
-  return {
-    stories: catalog.map((s) => s.slug),
-    authors: authors.map((a) => a.slug),
-  };
-}

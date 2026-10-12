@@ -47,7 +47,7 @@ export interface StorySummary {
   sampleChapterCount: number;
   firstPublishedAt: string;
   lastPublishedAt: string;
-  rating: { average: number; count: number; isMock: true };
+  rating: { average: number; count: number; isMock: boolean };
   isFeatured: boolean;
   isTrending: boolean;
 }
@@ -59,7 +59,7 @@ export interface ChapterSummary {
   title: string;
   publishedAt: string;
   estimatedMinutes: number;
-  isSample: true;
+  isSample: boolean;
 }
 export interface StoryDetail extends StorySummary {
   synopsisLong: string;
