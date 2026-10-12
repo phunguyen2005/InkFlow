@@ -13,3 +13,4 @@
 - Reader uses a separate shell with server-rendered prose. Library header/footer are composed in discovery pages, preserving the specified routes.
 - Demo pages are noindex. No authentication, private Studio, backend service or publishing workflow is connected.
 - Rankings resolves to sorted Explore; unavailable Community/auth links are omitted. Studio is an informational footer entry until an actual destination exists.
+- **2026-10-11 - Header Rankings Navigation**: Updated desktop and mobile header navigation links from `/explore?sort=trending` to dedicated `/rankings` route with `aria-current="page"` active state.

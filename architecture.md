@@ -63,8 +63,18 @@ src/
         reader/
         author/
       data/
+        library.ts
         library.repository.ts
         mock-library.repository.ts
+      hooks/
+        use-local-value.ts
+        use-reading-progress.ts
+      styles/
+        discovery.css
+        search.css
+        story.css
+        author.css
+        reader.css
       mock/
         stories.ts
         chapters.ts
@@ -132,6 +142,11 @@ supabase-library.repository.ts
 
 The UI should not import raw mock arrays directly except in tests/stories. Pages call repository functions so the backend migration is boring.
 
+Routes import `data/library.ts`, the server-only composition root. This module selects
+the adapter implementing `LibraryRepository`. Facet and public-slug queries belong
+to the repository contract alongside story, chapter, and author queries. Changing
+the adapter must not require changing route imports.
+
 ## 6. Public Data Boundary
 
 Library data must be modeled as public approved snapshots:
@@ -177,6 +192,12 @@ Use local storage for:
 
 Do not add a global client state library for the initial build unless a real cross-screen requirement appears.
 
+`use-local-value` owns the shared browser storage subscription. `use-reading-progress`
+owns scroll measurement, paragraph resume, and bookmark persistence. Flush pending
+progress before route navigation and on page hide; ignore outgoing scroll restoration.
+Validate stored chapter slugs structurally, then check availability against the story's
+current chapter list. Fixture chapter counts must not constrain public reader logic.
+
 ## 8. Tailwind And Tokens
 
 Map design tokens in `tailwind.config.ts`:
@@ -213,6 +234,18 @@ theme: {
 ```
 
 Fonts should be loaded through `next/font/google` or another explicit licensed strategy.
+
+The implementation uses Tailwind v4 `@theme` in `styles/tokens.css`.
+`app/globals.css` is an ordered stylesheet entry point. Shared primitives live in
+`styles/base.css`; feature presentation lives in `features/library/styles/`.
+Shared responsive overrides remain in `styles/responsive.css`, imported last to
+preserve the existing cascade. This split establishes file ownership; it does not
+yet isolate selectors or split CSS delivery by route.
+
+Only project the fields needed by interactive clients. The featured carousel receives
+a compact story projection and its actual first available chapter slug, not a full
+`StoryDetail` with chapter listings. Carousel pause reasons are independent: hover,
+focus within, hidden document, reduced motion, and explicit reader choice.
 
 ## 9. Image Strategy
 
