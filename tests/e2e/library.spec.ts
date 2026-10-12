@@ -11,7 +11,11 @@ test("discovery, search URLs, reading, saved state and author journey", async ({
   ).toBeVisible();
   await page.getByRole("link", { name: "Discover the story" }).click();
   await expect(
-    page.getByRole("heading", { name: "The Blood Orchard", exact: true, level: 1 }),
+    page.getByRole("heading", {
+      name: "The Blood Orchard",
+      exact: true,
+      level: 1,
+    }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Save to library", exact: true })
@@ -47,7 +51,10 @@ test("discovery, search URLs, reading, saved state and author journey", async ({
   await expect(page.getByRole("heading", { name: "Mara Voss" })).toBeVisible();
   await page.goto("/explore");
   await page.getByRole("textbox", { name: "Search catalog" }).fill("Mara Voss");
-  await page.locator(".explore-controls").getByRole("button", { name: "Search", exact: true }).click();
+  await page
+    .locator(".explore-controls")
+    .getByRole("button", { name: "Search", exact: true })
+    .click();
   await expect(page).toHaveURL(/q=Mara\+Voss/);
   await expect(page.locator(".story-result")).toHaveCount(1);
   await page.reload();
@@ -124,7 +131,7 @@ test("five screens at five widths render without overflow or broken images", asy
     for (const [name, route] of routes) {
       await page.goto(route);
       await page.evaluate(() => document.fonts.ready);
-      await expect(page.locator("h1")).toBeVisible();
+      await expect(page.locator("main h1").first()).toBeVisible();
       await page.evaluate(async () => {
         await Promise.all(
           [...document.images]
@@ -211,8 +218,11 @@ test("all catalog destinations and original artwork exist", async ({
   }
 });
 
-test("hero slider navigation, controls, and layout stability", async ({ page }) => {
+test("hero slider navigation, controls, and layout stability", async ({
+  page,
+}) => {
   await page.goto("/");
+  await page.getByRole("button", { name: "Pause featured stories" }).click();
   const heroRail = page.locator(".hero-rail");
   await expect(heroRail).toBeVisible();
 
@@ -221,7 +231,9 @@ test("hero slider navigation, controls, and layout stability", async ({ page }) 
   await expect(heroRail.getByText(/1\s*\/\s*4/)).toHaveCount(0);
 
   // Initial slide title
-  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("The Blood Orchard");
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText(
+    "The Blood Orchard",
+  );
 
   // Record vertical position of Start reading button
   const startReadingBtn = heroRail.getByRole("link", { name: /Start reading/ });
@@ -231,25 +243,219 @@ test("hero slider navigation, controls, and layout stability", async ({ page }) 
   // Advance using Next button
   const nextBtn = page.getByRole("button", { name: "Next featured story" });
   await nextBtn.click();
-  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("The Quiet Machine at Dawn");
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText(
+    "The Quiet Machine at Dawn",
+  );
 
   // Check vertical stability (Y position should remain stable within 4px)
   const nextBox = await startReadingBtn.boundingBox();
   expect(nextBox).not.toBeNull();
-  expect(Math.abs((nextBox?.y || 0) - (initialBox?.y || 0))).toBeLessThanOrEqual(4);
+  expect(
+    Math.abs((nextBox?.y || 0) - (initialBox?.y || 0)),
+  ).toBeLessThanOrEqual(4);
 
   // Direct segment click
   const thirdSegment = page.getByRole("button", { name: /Show story 3:/ });
   await thirdSegment.click();
-  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("A Map for Moonlight");
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText(
+    "A Map for Moonlight",
+  );
 
   // Fourth segment
   const fourthSegment = page.getByRole("button", { name: /Show story 4:/ });
   await fourthSegment.click();
-  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("The Lanterns of Briar Row");
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText(
+    "The Lanterns of Briar Row",
+  );
 
   // Previous button
   const prevBtn = page.getByRole("button", { name: "Previous featured story" });
   await prevBtn.click();
-  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText("A Map for Moonlight");
+  await expect(heroRail.getByRole("heading", { level: 2 })).toHaveText(
+    "A Map for Moonlight",
+  );
+});
+
+test("hero advances only after the progress segment fills", async ({ page }) => {
+  await page.goto("/");
+  await page.mouse.move(0, 0);
+
+  const progress = await page.evaluate(
+    () =>
+      new Promise<{ fill: number; track: number }>((resolve) => {
+        const fill = document.querySelector<HTMLElement>(
+          ".hero-segment.active .hero-segment-fill",
+        );
+        if (!fill) throw new Error("Active hero progress segment missing");
+        fill.addEventListener(
+          "animationend",
+          () =>
+            resolve({
+              fill: fill.getBoundingClientRect().width,
+              track: fill.parentElement!.getBoundingClientRect().width,
+            }),
+          { once: true },
+        );
+      }),
+  );
+
+  expect(progress.fill).toBeCloseTo(progress.track, 1);
+  await expect(page.locator(".hero-rail h2")).toHaveText(
+    "The Quiet Machine at Dawn",
+  );
+});
+
+test("carousel remains paused while focused after the pointer leaves", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const hero = page.locator(".hero");
+  await hero.getByRole("link", { name: "Discover the story" }).focus();
+  await hero.hover();
+  await page.mouse.move(0, 0);
+  await expect(hero).toHaveClass(/is-paused/);
+  await page.waitForTimeout(6500);
+  await expect(hero.getByRole("heading", { level: 2 })).toHaveText(
+    "The Blood Orchard",
+  );
+  await page.getByRole("button", { name: "Pause featured stories" }).click();
+  await page.locator(".skip-link").focus();
+  await page.mouse.move(0, 0);
+  await expect(hero).toHaveClass(/is-paused/);
+  await page.getByRole("button", { name: "Play featured stories" }).click();
+  await page.locator(".skip-link").focus();
+  await page.mouse.move(0, 0);
+  await expect(hero).not.toHaveClass(/is-paused/);
+});
+
+test("reader flushes pending progress on route exit and resumes the paragraph", async ({
+  page,
+}) => {
+  await page.goto("/stories/the-blood-orchard/chapters/chapter-1");
+  await page.evaluate(() => document.fonts.ready);
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        localStorage.getItem("inkflow:progress:v1:story-001"),
+      ),
+    )
+    .not.toBeNull();
+  await page
+    .locator('[data-paragraph="4"]')
+    .evaluate((element) =>
+      element.scrollIntoView({ behavior: "instant", block: "start" }),
+    );
+  // Wait for measurement, but leave before the 350ms storage debounce.
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+  const backButton = await page.locator(".reader-back").boundingBox();
+  if (!backButton) throw new Error("Reader navigation must remain visible while scrolling");
+  await page.mouse.click(backButton.x + backButton.width / 2, backButton.y + backButton.height / 2);
+  await expect(
+    page.getByRole("heading", { name: "The Blood Orchard", level: 1 }),
+  ).toBeVisible();
+  const bookmark = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("inkflow:progress:v1:story-001") ?? "null"),
+  );
+  expect(bookmark.chapterSlug).toBe("chapter-1");
+  expect(bookmark.paragraph).toBeGreaterThanOrEqual(3);
+  await page.getByRole("link", { name: "Continue reading" }).click();
+  await expect
+    .poll(() =>
+      page
+        .locator(`[data-paragraph="${bookmark.paragraph}"]`)
+        .evaluate((element) =>
+          Math.abs(element.getBoundingClientRect().top - 90),
+        ),
+    )
+    .toBeLessThan(40);
+});
+
+test("resume links only target chapters available in the current story", async ({
+  page,
+}) => {
+  await page.addInitScript(() =>
+    localStorage.setItem(
+      "inkflow:progress:v1:story-001",
+      JSON.stringify({ chapterSlug: "chapter-9", paragraph: 0 }),
+    ),
+  );
+  await page.goto("/stories/the-blood-orchard");
+  await expect(
+    page.getByRole("link", { name: "Continue reading" }),
+  ).toHaveCount(0);
+});
+
+test("reader progress indicator is hidden by default and toggleable in settings", async ({
+  page,
+}) => {
+  await page.goto("/stories/the-blood-orchard/chapters/chapter-1");
+  await page.evaluate(() => document.fonts.ready);
+
+  // Hidden by default
+  await expect(page.locator(".reader-percent")).toHaveCount(0);
+  await expect(page.locator(".reader-progress")).toHaveCount(0);
+
+  // Open settings
+  await page
+    .getByRole("button", { name: "Reading appearance", exact: true })
+    .click();
+  const toggle = page.getByRole("switch", { name: "Show reading progress" });
+  await expect(toggle).not.toBeChecked();
+
+  // Enable progress
+  await toggle.check();
+  await page.getByRole("button", { name: "Close Reading appearance" }).click();
+
+  await expect(page.locator(".reader-progress")).toBeVisible();
+  await expect(page.locator(".reader-percent")).toBeVisible();
+
+  // Reload and verify persistence
+  await page.reload();
+  await expect(page.locator(".reader-progress")).toBeVisible();
+  await expect(page.locator(".reader-percent")).toBeVisible();
+});
+
+test("story detail displays continue where you left off and chapter list progress", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "inkflow:progress:v1:story-001",
+      JSON.stringify({
+        storyId: "story-001",
+        chapterId: "chapter-003",
+        chapterSlug: "chapter-3",
+        chapterRevisionId: "chapter-003-rev1",
+        blockId: "block-chapter-003-2",
+        paragraph: 2,
+        offsetRatio: 0.35,
+        percent: 35,
+        completedChapterSlugs: ["chapter-1", "chapter-2"],
+        updatedAt: new Date().toISOString(),
+        lastReadAt: new Date().toISOString(),
+      }),
+    );
+  });
+
+  await page.goto("/stories/the-blood-orchard");
+
+  // Verify prominent resume section
+  await expect(page.getByText("Continue where you left off")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Continue reading" }),
+  ).toBeVisible();
+
+  // Verify chapter list indicators
+  const chapterSection = page.locator(".chapter-section");
+  await expect(
+    chapterSection.locator(".chapter-status-pill.is-completed"),
+  ).toHaveCount(2);
+  await expect(
+    chapterSection.locator(".chapter-status-pill.is-reading"),
+  ).toHaveCount(1);
 });

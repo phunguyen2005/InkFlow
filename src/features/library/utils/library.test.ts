@@ -85,6 +85,12 @@ describe("discovery query behavior", () => {
     expect(filterStories(catalog, { q: "slow burn" }).items[0].slug).toBe(
       "a-map-for-moonlight",
     );
+    expect(filterStories(catalog, { q: "slow-burn" }).items).toEqual(
+      filterStories(catalog, { q: "slow burn" }).items,
+    );
+    expect(filterStories(catalog, { q: "Sci-Fi" }).items).toEqual(
+      filterStories(catalog, { q: "sci fi" }).items,
+    );
     expect(filterStories(catalog, { q: "not-a-real-story" }).total).toBe(0);
   });
   it("sorts stably and clamps pages without mutating fixtures", () => {
@@ -116,6 +122,10 @@ describe("local reader storage", () => {
       lineHeight: 1.5,
     });
     expect(parsePreferences('{"size":"20"}').size).toBe(18);
+    expect(parsePreferences('{"showProgress":true}').showProgress).toBe(true);
+    expect(parsePreferences('{"showProgress":"invalid"}').showProgress).toBe(
+      false,
+    );
   });
   it("does not trust malformed or unsupported resume targets", () => {
     expect(parseBookmark('{"chapterSlug":"chapter-2","paragraph":7}')).toEqual({
@@ -125,9 +135,39 @@ describe("local reader storage", () => {
     expect(
       parseBookmark('{"chapterSlug":"javascript:alert(1)","paragraph":1}'),
     ).toBeNull();
-    expect(
-      parseBookmark('{"chapterSlug":"chapter-9","paragraph":0}'),
-    ).toBeNull();
+    expect(parseBookmark('{"chapterSlug":"chapter-9","paragraph":0}')).toEqual({
+      chapterSlug: "chapter-9",
+      paragraph: 0,
+    });
     expect(parseBookmark("{}")).toBeNull();
+  });
+  it("parses rich reading progress with blockId and chapterRevisionId", () => {
+    const raw = JSON.stringify({
+      storyId: "story-001",
+      chapterId: "chapter-001",
+      chapterSlug: "chapter-1",
+      chapterRevisionId: "chapter-001-rev1",
+      blockId: "block-chapter-001-3",
+      paragraph: 3,
+      offsetRatio: 0.45,
+      percent: 45,
+      completedChapterSlugs: ["chapter-1"],
+      updatedAt: "2026-10-12T00:00:00.000Z",
+      lastReadAt: "2026-10-12T00:00:00.000Z",
+    });
+    const parsed = parseBookmark(raw);
+    expect(parsed).toEqual({
+      storyId: "story-001",
+      chapterId: "chapter-001",
+      chapterSlug: "chapter-1",
+      chapterRevisionId: "chapter-001-rev1",
+      blockId: "block-chapter-001-3",
+      paragraph: 3,
+      offsetRatio: 0.45,
+      percent: 45,
+      completedChapterSlugs: ["chapter-1"],
+      updatedAt: "2026-10-12T00:00:00.000Z",
+      lastReadAt: "2026-10-12T00:00:00.000Z",
+    });
   });
 });
